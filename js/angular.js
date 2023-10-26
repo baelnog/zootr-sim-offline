@@ -42,6 +42,10 @@ app.controller('simController', function($scope, $http) {
   
   $scope.init = function() {
     $scope.isShopsanity = false;
+
+    $scope.isOverworldSkulls = false;
+
+    $scope.isDungeonSkulls = false;
     
     $scope.currentSpoilerLog = '';
     
@@ -116,10 +120,26 @@ app.controller('simController', function($scope, $http) {
   $scope.currentRegion = 'Goron City';
   
   $scope.getAvailableLocations = function() {
-    return $scope.currentAge == 'Child' ? locationsByRegionChild[$scope.currentRegion] : locationsByRegionAdult[$scope.currentRegion];
+    baseLocations = $scope.currentAge == 'Child' ? locationsByRegionChild[$scope.currentRegion] : locationsByRegionAdult[$scope.currentRegion];
+
+    skulls = $scope.getAvailableSkulltulas()
+
+    if (skulls) {
+      if (dungeons.includes($scope.currentRegion)) {
+        if ($scope.isDungeonSkulls) {
+          baseLocations = baseLocations.concat(skulls)
+        }
+      } else {
+        if ($scope.isOverworldSkulls) {
+          baseLocations = baseLocations.concat(skulls)
+        }
+      }
+    }
+
+    return baseLocations
   }
   
-  $scope.getAvailableSkulltulas = function() {   
+  $scope.getAvailableSkulltulas = function() {
     return $scope.currentAge == 'Child' ? skulltulasByRegionChild[$scope.currentRegion] : skulltulasByRegionAdult[$scope.currentRegion];
   }
   
@@ -994,6 +1014,8 @@ $scope.hasBossKey = function(dungeon) {
       var results = logfile['locations'];
       $scope.fsHash = logfile['file_hash'];
       $scope.isShopsanity = logfile['settings']['shopsanity'] != 'off';
+      $scope.isOverworldSkulls = logfile['settings']['tokensanity'] == 'all' || logfile['settings']['tokensanity'] == 'overworld';
+      $scope.isDungeonSkulls = logfile['settings']['tokensanity'] == 'all' || logfile['settings']['tokensanity'] == 'dungeons';
       $scope.totalChecks = Object.keys(results).length;
       for (var loc in results) {
         item = typeof results[loc] == 'object' ? results[loc]['item'] : results[loc];
