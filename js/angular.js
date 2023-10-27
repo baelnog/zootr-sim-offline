@@ -88,6 +88,8 @@ app.controller('simController', function($scope, $http) {
     
     $scope.totalChecks = 0;
     
+    $scope.enabledMiscHints = [];
+    
     $scope.gossipHints = {};
     
     $scope.itemCounts = {};
@@ -295,6 +297,31 @@ $scope.peekAt = function(loc) {
 $scope.hasPeeked = function(loc) {
   return $scope.peekedLocations.includes(loc);
 };
+
+$scope.canPeek = function(loc) {
+  if (loc.includes('Freestanding')) {
+    return true
+  }
+  if (loc == 'LH Underwater Item') {
+    return true
+  }
+  if (loc.includes('GS')) {
+    return true
+  }
+
+  if (loc.includes('Gold Skulltula Reward')) {
+    numSkulls = loc.match(/\d+/)[0]
+    if ($scope.enabledMiscHints.includes("" + numSkulls + "_skulltulas")) {
+      return true
+    }
+  }
+
+  if (loc == 'Frogs Ocarina Game' && $scope.enabledMiscHints.includes['frogs2']) {
+    return true
+  }
+
+  return false
+}
 
 $scope.undoCheck = function() {
   var mostRecent = $scope.actions.pop();
@@ -1016,6 +1043,7 @@ $scope.hasBossKey = function(dungeon) {
       $scope.isShopsanity = logfile['settings']['shopsanity'] != 'off';
       $scope.isOverworldSkulls = logfile['settings']['tokensanity'] == 'all' || logfile['settings']['tokensanity'] == 'overworld';
       $scope.isDungeonSkulls = logfile['settings']['tokensanity'] == 'all' || logfile['settings']['tokensanity'] == 'dungeons';
+      $scope.enabledMiscHints = logfile['settings']['misc_hints']      
       $scope.totalChecks = Object.keys(results).length;
       for (var loc in results) {
         item = typeof results[loc] == 'object' ? results[loc]['item'] : results[loc];
