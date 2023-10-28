@@ -935,6 +935,10 @@ var skulltulasByRegionChild = {
   'Jabu Jabus Belly': ["Jabu Jabus Belly GS Water Switch Room", "Jabu Jabus Belly GS Lobby Basement Lower", "Jabu Jabus Belly GS Lobby Basement Upper", "Jabu Jabus Belly GS Near Boss"],
 }
 
+var expensiveMerchantsByRegionChild = {
+  'Haunted Wasteland': ['Wasteland Bombchu Salesman']
+}
+
 var utilityByRegionChild = {
   'Kakariko Village': ['Turn in Keaton Mask'],
   'Market': ['Buy Keaton Mask', 'Buy Skull Mask'],
@@ -1056,6 +1060,12 @@ var skulltulasByRegionAdult = {
   'Outside Ganons Castle': ["OGC GS"],
   'Ganons Castle': []
 };
+
+var expensiveMerchantsByRegionAdult = {
+  'Kakariko Village': ['Kak Granny Buy Blue Potion'],
+  'Goron City': ['GC Medigoron'],
+  'Haunted Wasteland': ['Wasteland Bombchu Salesman'],
+}
 
 var entrancesByRegionAdult = {
   'Kokiri Forest': ['Lost Woods', 'Hyrule Field'],

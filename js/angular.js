@@ -46,6 +46,10 @@ app.controller('simController', function($scope, $http) {
     $scope.isOverworldSkulls = false;
 
     $scope.isDungeonSkulls = false;
+
+    $scope.isExpensiveMerchants = false;
+
+    $scope.isBeanMerchant = false;
     
     $scope.currentSpoilerLog = '';
     
@@ -89,7 +93,7 @@ app.controller('simController', function($scope, $http) {
     $scope.totalChecks = 0;
     
     $scope.enabledMiscHints = [];
-    
+
     $scope.gossipHints = {};
     
     $scope.itemCounts = {};
@@ -138,6 +142,10 @@ app.controller('simController', function($scope, $http) {
       }
     }
 
+    if ($scope.isExpensiveMerchants) {
+      baseLocations = baseLocations.concat($scope.getAvailableExpensiveMerchants())
+    }
+
     return baseLocations
   }
   
@@ -145,10 +153,13 @@ app.controller('simController', function($scope, $http) {
     return $scope.currentAge == 'Child' ? skulltulasByRegionChild[$scope.currentRegion] : skulltulasByRegionAdult[$scope.currentRegion];
   }
   
+  $scope.getAvailableExpensiveMerchants = function() {
+    return $scope.currentAge == 'Child' ? expensiveMerchantsByRegionChild[$scope.currentRegion] : expensiveMerchantsByRegionAdult[$scope.currentRegion];
+  }
+  
   $scope.getAvailableEntrances = function() {
     return $scope.currentAge == 'Child' ? entrancesByRegionChild[$scope.currentRegion] : entrancesByRegionAdult[$scope.currentRegion];
   }
-  
   
   $scope.countChus = function() {
     var ownedChus = $scope.currentItemsAll.filter(item => item.includes('Bombchu'));
@@ -318,6 +329,20 @@ $scope.canPeek = function(loc) {
 
   if (loc == 'Frogs Ocarina Game' && $scope.enabledMiscHints.includes['frogs2']) {
     return true
+  }
+
+  if ($scope.isExpensiveMerchants) {
+    if (['Kak Granny Buy Blue Potion', 'GC Medigoron', 'Wasteland Bombchu Salesman'].includes(loc)) {
+      if ($scope.enabledMiscHints.includes('unique_merchants')) {
+        return true
+      }
+    }
+  }
+
+  if ($scope.isBeanMerchant) {
+    if (loc == 'ZR Magic Bean Salesman' && $scope.enabledMiscHints.includes('unique_merchants')) {
+        return true
+    }
   }
 
   return false
@@ -1043,6 +1068,8 @@ $scope.hasBossKey = function(dungeon) {
       $scope.isShopsanity = logfile['settings']['shopsanity'] != 'off';
       $scope.isOverworldSkulls = logfile['settings']['tokensanity'] == 'all' || logfile['settings']['tokensanity'] == 'overworld';
       $scope.isDungeonSkulls = logfile['settings']['tokensanity'] == 'all' || logfile['settings']['tokensanity'] == 'dungeons';
+      $scope.isExpensiveMerchants = logfile['settings']['shuffle_expensive_merchants']
+      $scope.isBeanMerchant = logfile['settings']['shuffle_beans']
       $scope.enabledMiscHints = logfile['settings']['misc_hints']      
       $scope.totalChecks = Object.keys(results).length;
       for (var loc in results) {
