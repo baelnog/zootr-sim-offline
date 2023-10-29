@@ -935,6 +935,42 @@ var skulltulasByRegionChild = {
   'Jabu Jabus Belly': ["Jabu Jabus Belly GS Water Switch Room", "Jabu Jabus Belly GS Lobby Basement Lower", "Jabu Jabus Belly GS Lobby Basement Upper", "Jabu Jabus Belly GS Near Boss"],
 }
 
+var scrubsByRegionChild = {
+  "Death Mountain Crater": ["DMC Deku Scrub"],
+  "Dodongos Cavern": [
+    "Dodongos Cavern Deku Scrub Lobby",
+    "Dodongos Cavern Deku Scrub Near Bomb Bag Left",
+    "Dodongos Cavern Deku Scrub Near Bomb Bag Right",
+    "Dodongos Cavern Deku Scrub Side Room Near Dodongos"
+  ],
+  "Jabu Jabus Belly": [
+    "Jabu Jabus Belly Deku Scrub"
+  ],
+  "Lake Hylia": [
+    "LH Deku Scrub Grotto Center",
+    "LH Deku Scrub Grotto Left",
+    "LH Deku Scrub Grotto Right"
+  ],
+  "Lon Lon Ranch": [
+    "LLR Deku Scrub Grotto Center",
+    "LLR Deku Scrub Grotto Left",
+    "LLR Deku Scrub Grotto Right"
+  ],
+  "Lost Woods": [
+    "LW Deku Scrub Grotto Rear",
+    "LW Deku Scrub Near Deku Theater Left",
+    "LW Deku Scrub Near Deku Theater Right"
+  ],
+  "Sacred Forest Meadow": [
+    "SFM Deku Scrub Grotto Front",
+    "SFM Deku Scrub Grotto Rear"
+  ],
+  "Zora River": [
+    "ZR Deku Scrub Grotto Front",
+    "ZR Deku Scrub Grotto Rear"
+  ]
+}
+
 var expensiveMerchantsByRegionChild = {
   'Haunted Wasteland': ['Wasteland Bombchu Salesman']
 }
@@ -1060,6 +1096,60 @@ var skulltulasByRegionAdult = {
   'Outside Ganons Castle': ["OGC GS"],
   'Ganons Castle': []
 };
+
+var scrubsByRegionAdult = {
+  "Desert Colossus": [
+    "Colossus Deku Scrub Grotto Front",
+    "Colossus Deku Scrub Grotto Rear"
+  ],
+  "Death Mountain Crater": [
+    "DMC Deku Scrub Grotto Center",
+    "DMC Deku Scrub Grotto Left",
+    "DMC Deku Scrub Grotto Right"
+  ],
+  "Dodongos Cavern": [
+    "Dodongos Cavern Deku Scrub Lobby",
+    "Dodongos Cavern Deku Scrub Near Bomb Bag Left",
+    "Dodongos Cavern Deku Scrub Near Bomb Bag Right",
+    "Dodongos Cavern Deku Scrub Side Room Near Dodongos"
+  ],
+  "Ganons Castle": [
+    "Ganons Castle Deku Scrub Center-Left",
+    "Ganons Castle Deku Scrub Center-Right",
+    "Ganons Castle Deku Scrub Left",
+    "Ganons Castle Deku Scrub Right"
+  ],
+  "Goron City": [
+    "GC Deku Scrub Grotto Center",
+    "GC Deku Scrub Grotto Left",
+    "GC Deku Scrub Grotto Right"
+  ],
+  "Gerudo Valley": [
+    "GV Deku Scrub Grotto Front",
+    "GV Deku Scrub Grotto Rear"
+  ],
+  "Jabu Jabus Belly": [
+    "Jabu Jabus Belly Deku Scrub"
+  ],
+  "Lake Hylia": [
+    "LH Deku Scrub Grotto Center",
+    "LH Deku Scrub Grotto Left",
+    "LH Deku Scrub Grotto Right"
+  ],
+  "Lost Woods": [
+    "LW Deku Scrub Grotto Rear",
+    "LW Deku Scrub Near Deku Theater Left",
+    "LW Deku Scrub Near Deku Theater Right"
+  ],
+  "Sacred Forest Meadow": [
+    "SFM Deku Scrub Grotto Front",
+    "SFM Deku Scrub Grotto Rear"
+  ],
+  "Zora River": [
+    "ZR Deku Scrub Grotto Front",
+    "ZR Deku Scrub Grotto Rear"
+  ]
+}
 
 var expensiveMerchantsByRegionAdult = {
   'Kakariko Village': ['Kak Granny Buy Blue Potion'],

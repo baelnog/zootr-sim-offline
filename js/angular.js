@@ -47,6 +47,8 @@ app.controller('simController', function($scope, $http) {
 
     $scope.isDungeonSkulls = false;
 
+    $scope.isScrubsShuffle = false;
+
     $scope.isExpensiveMerchants = false;
 
     $scope.isBeanMerchant = false;
@@ -146,6 +148,10 @@ app.controller('simController', function($scope, $http) {
       baseLocations = baseLocations.concat($scope.getAvailableExpensiveMerchants())
     }
 
+    if ($scope.isScrubsShuffle) {
+      baseLocations = baseLocations.concat($scope.getAvailableScrubs())
+    }
+
     return baseLocations
   }
   
@@ -155,6 +161,10 @@ app.controller('simController', function($scope, $http) {
   
   $scope.getAvailableExpensiveMerchants = function() {
     return $scope.currentAge == 'Child' ? expensiveMerchantsByRegionChild[$scope.currentRegion] : expensiveMerchantsByRegionAdult[$scope.currentRegion];
+  }
+  
+  $scope.getAvailableScrubs = function() {
+    return $scope.currentAge == 'Child' ? scrubsByRegionChild[$scope.currentRegion] : scrubsByRegionAdult[$scope.currentRegion];
   }
   
   $scope.getAvailableEntrances = function() {
@@ -1066,6 +1076,7 @@ $scope.hasBossKey = function(dungeon) {
       var results = logfile['locations'];
       $scope.fsHash = logfile['file_hash'];
       $scope.isShopsanity = logfile['settings']['shopsanity'] != 'off';
+      $scope.isScrubsShuffle = logfile['settings']['shuffle_scrubs'] != 'off'
       $scope.isOverworldSkulls = logfile['settings']['tokensanity'] == 'all' || logfile['settings']['tokensanity'] == 'overworld';
       $scope.isDungeonSkulls = logfile['settings']['tokensanity'] == 'all' || logfile['settings']['tokensanity'] == 'dungeons';
       $scope.isExpensiveMerchants = logfile['settings']['shuffle_expensive_merchants']
