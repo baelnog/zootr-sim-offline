@@ -41,17 +41,8 @@ app.controller('simController', function($scope, $http) {
   $scope.darkModeOn = false;
   
   $scope.init = function() {
-    $scope.isShopsanity = false;
 
-    $scope.isOverworldSkulls = false;
-
-    $scope.isDungeonSkulls = false;
-
-    $scope.isScrubsShuffle = false;
-
-    $scope.isExpensiveMerchants = false;
-
-    $scope.isBeanMerchant = false;
+    $scope.enabled_shuffles = {};
     
     $scope.currentSpoilerLog = '';
     
@@ -94,7 +85,7 @@ app.controller('simController', function($scope, $http) {
     
     $scope.totalChecks = 0;
     
-    $scope.enabledMiscHints = [];
+    $scope.enabled_misc_hints = [];
 
     $scope.gossipHints = {};
     
@@ -125,46 +116,43 @@ app.controller('simController', function($scope, $http) {
   
   $scope.init();
 
-  $scope.currentRegion = 'Goron City';
-  
   $scope.getAvailableLocations = function() {
     baseLocations = $scope.currentAge == 'Child' ? locationsByRegionChild[$scope.currentRegion] : locationsByRegionAdult[$scope.currentRegion];
 
-    skulls = $scope.getAvailableSkulltulas()
+    if (baseLocations == null) {
+      return null
+    }
 
-    if (skulls) {
-      if (dungeons.includes($scope.currentRegion)) {
-        if ($scope.isDungeonSkulls) {
-          baseLocations = baseLocations.concat(skulls)
-        }
-      } else {
-        if ($scope.isOverworldSkulls) {
-          baseLocations = baseLocations.concat(skulls)
-        }
+    baseLocations = baseLocations.filter(loc => $scope.isLocationAvailable(loc))
+
+    return baseLocations.map(loc => loc.name);
+  }
+
+  $scope.isLocationAvailable = function(loc) {
+
+    if (loc.shuffleGroup == null) {
+      return true
+    }
+
+    if (loc.shuffleGroup.startsWith('misc_hints')) {
+      hintType = loc.shuffleGroup.replace("misc_hints_")
+
+      if ($scope.enabled_misc_hints[hintType]) {
+        return true
       }
     }
 
-    if ($scope.isExpensiveMerchants) {
-      baseLocations = baseLocations.concat($scope.getAvailableExpensiveMerchants())
-    }
-
-    if ($scope.isScrubsShuffle) {
-      baseLocations = baseLocations.concat($scope.getAvailableScrubs())
-    }
-
-    return baseLocations
+    return $scope.enabled_shuffles[loc.shuffleGroup]
   }
-  
+
   $scope.getAvailableSkulltulas = function() {
-    return $scope.currentAge == 'Child' ? skulltulasByRegionChild[$scope.currentRegion] : skulltulasByRegionAdult[$scope.currentRegion];
-  }
+    baseLocations = $scope.currentAge == 'Child' ? locationsByRegionChild[$scope.currentRegion] : locationsByRegionAdult[$scope.currentRegion];
   
-  $scope.getAvailableExpensiveMerchants = function() {
-    return $scope.currentAge == 'Child' ? expensiveMerchantsByRegionChild[$scope.currentRegion] : expensiveMerchantsByRegionAdult[$scope.currentRegion];
-  }
-  
-  $scope.getAvailableScrubs = function() {
-    return $scope.currentAge == 'Child' ? scrubsByRegionChild[$scope.currentRegion] : scrubsByRegionAdult[$scope.currentRegion];
+    if (baseLocations == null) {
+      return null
+    }
+
+    return baseLocations.filter(loc => loc.type == 'Skulltula').map(loc => loc.name)
   }
   
   $scope.getAvailableEntrances = function() {
@@ -207,14 +195,14 @@ app.controller('simController', function($scope, $http) {
   
   $scope.checkLocation = function(loc) {
     $scope.actions.push('Location:' + loc);
-    if (loc.startsWith('Check Pedestal')) {
+    if (loc.includes('Altar Hint')) {
       $scope.checkedLocations.push(loc);
       if ($scope.currentAge == 'Adult') {
-        $scope.checkedLocations.push('Check Pedestal (Stones)');
+        $scope.checkedLocations.push('ToT Child Altar Hint');
       }
       for (var key in $scope.medallions) {
         if (!$scope.currentItemsAll.includes($scope.medallions[key])) {
-          if ($scope.medallions[key].includes('Medallion')) {
+          if ($scope.medallions[key].includes('Adult')) {
             if ($scope.currentAge == 'Adult') {
               $scope.knownMedallions[key] = $scope.medallions[key];
             }
@@ -251,7 +239,7 @@ app.controller('simController', function($scope, $http) {
         $scope.route += 'Ganon\n';
       }
     }
-    else if (!(loc in $scope.allLocations) && loc.startsWith('GS ')) {
+    else if (!(loc in $scope.allLocations) && loc.includes(' GS')) {
       $scope.currentItemsAll.push('Gold Skulltula Token');
       $scope.itemCounts['Gold Skulltula Token']++;
       $scope.checkedLocations.push(loc);
@@ -319,39 +307,32 @@ $scope.hasPeeked = function(loc) {
   return $scope.peekedLocations.includes(loc);
 };
 
-$scope.canPeek = function(loc) {
-  if (loc.includes('Freestanding')) {
+$scope.canPeek = function(loc_name) {
+  loc = locationsByName[loc_name]
+  if (loc.type == 'Freestanding') {
     return true
   }
-  if (loc == 'LH Underwater Item') {
+  if (loc.type == "Skulltula") {
     return true
   }
-  if (loc.includes('GS')) {
+  if (loc.type == "Shop") {
     return true
   }
 
-  if (loc.includes('Gold Skulltula Reward')) {
-    numSkulls = loc.match(/\d+/)[0]
-    if ($scope.enabledMiscHints.includes("" + numSkulls + "_skulltulas")) {
+  if (loc_name.includes('Gold Skulltula Reward')) {
+    numSkulls = loc_name.match(/\d+/)[0]
+    if ($scope.enabled_misc_hints.includes("" + numSkulls + "_skulltulas")) {
       return true
     }
   }
 
-  if (loc == 'Frogs Ocarina Game' && $scope.enabledMiscHints.includes['frogs2']) {
+  if (loc_name == 'Frogs Ocarina Game' && $scope.enabled_misc_hints.includes['frogs2']) {
     return true
   }
 
-  if ($scope.isExpensiveMerchants) {
-    if (['Kak Granny Buy Blue Potion', 'GC Medigoron', 'Wasteland Bombchu Salesman'].includes(loc)) {
-      if ($scope.enabledMiscHints.includes('unique_merchants')) {
-        return true
-      }
-    }
-  }
-
-  if ($scope.isBeanMerchant) {
-    if (loc == 'ZR Magic Bean Salesman' && $scope.enabledMiscHints.includes('unique_merchants')) {
-        return true
+  if (loc.shuffleGroup == "expensive_merchants" || loc.shuffleGroup == "beans") {
+    if ($scope.enabled_misc_hints.includes('unique_merchants')) {
+      return true
     }
   }
 
@@ -374,8 +355,8 @@ $scope.undoCheck = function() {
       }
       if (lastCheckedLocation in bosses) {
         $scope.currentRegion = bosses[lastCheckedLocation];
-        if (!$scope.checkedLocations.includes('Check Pedestal (Medallions)')) {
-          if (!$scope.checkedLocations.includes('Check Pedestal (Stones)') || !($scope.allLocations[lastCheckedLocation] == 'Kokiri Emerald' || $scope.allLocations[lastCheckedLocation] == 'Goron Ruby' || $scope.allLocations[lastCheckedLocation] == 'Zora Sapphire')) {
+        if (!$scope.checkedLocations.includes('ToT Adult Altar Hint')) {
+          if (!$scope.checkedLocations.includes('ToT Child Altar Hint') || !($scope.allLocations[lastCheckedLocation] == 'Kokiri Emerald' || $scope.allLocations[lastCheckedLocation] == 'Goron Ruby' || $scope.allLocations[lastCheckedLocation] == 'Zora Sapphire')) {
             $scope.knownMedallions[bosses[lastCheckedLocation]] = '???';
           }
         }
@@ -388,8 +369,8 @@ $scope.undoCheck = function() {
       $scope.currentItemsAll.splice($scope.currentItemsAll.lastIndexOf('Gold Skulltula Token'));
       $scope.itemCounts['Gold Skulltula Token']--;
     }
-    else if (lastCheckedLocation == 'Check Pedestal (Stones)') {
-      if (!$scope.checkedLocations.includes('Check Pedestal (Medallions)')) {
+    else if (lastCheckedLocation == 'ToT Child Altar Hint') {
+      if (!$scope.checkedLocations.includes('ToT Adult Altar Hint')) {
         for (loc in $scope.knownMedallions) {
           var med = $scope.knownMedallions[loc];
           if (!$scope.currentItemsAll.includes(med) && (med == 'Kokiri Emerald' || med == 'Goron Ruby' || med == 'Zora Sapphire')) {
@@ -398,11 +379,11 @@ $scope.undoCheck = function() {
         }
       }
     }
-    else if (lastCheckedLocation == 'Check Pedestal (Medallions)') {
+    else if (lastCheckedLocation == 'ToT Adult Altar Hint') {
       $scope.checkedLocations.pop();
       for (loc in $scope.knownMedallions) {
         var med = $scope.knownMedallions[loc];
-        if ($scope.checkedLocations.includes('Check Pedestal (Stones)') && (med == 'Kokiri Emerald' || med == 'Goron Ruby' || med == 'Zora Sapphire')) {
+        if ($scope.checkedLocations.includes('ToT Child Altar Hint') && (med == 'Kokiri Emerald' || med == 'Goron Ruby' || med == 'Zora Sapphire')) {
           continue;
         }
         if (!$scope.currentItemsAll.includes(med)) {
@@ -642,7 +623,7 @@ $scope.hasBossKey = function(dungeon) {
   }
   
   $scope.shouldAppearInLocations = function(loc) {
-    return loc in $scope.allLocations || inSpoilerExceptions.includes(loc);
+    return locationsByName[loc] != null && locationsByName[loc].type != 'HintStone';
   }
   
   $scope.getImage = function(item, count) {
@@ -728,7 +709,7 @@ $scope.hasBossKey = function(dungeon) {
     else if (item == 'Gold Skulltulas') {
       return ['skulltula.png', false];
     }
-    else if (item == 'Progressive Wallet' && !$scope.isShopsanity && count == 2) {
+    else if (item == 'Progressive Wallet' && !$scope.enabled_shuffles["shops"] && count == 2) {
       return ['wallet2.png', true];
     }
     else {
@@ -1075,13 +1056,35 @@ $scope.hasBossKey = function(dungeon) {
       $scope.adult_spawn_text = (logfile['randomized_settings']['starting_age'] == 'adult' || checked_adult_spawn) ? adultRegionText : '???';
       var results = logfile['locations'];
       $scope.fsHash = logfile['file_hash'];
-      $scope.isShopsanity = logfile['settings']['shopsanity'] != 'off';
-      $scope.isScrubsShuffle = logfile['settings']['shuffle_scrubs'] != 'off'
-      $scope.isOverworldSkulls = logfile['settings']['tokensanity'] == 'all' || logfile['settings']['tokensanity'] == 'overworld';
-      $scope.isDungeonSkulls = logfile['settings']['tokensanity'] == 'all' || logfile['settings']['tokensanity'] == 'dungeons';
-      $scope.isExpensiveMerchants = logfile['settings']['shuffle_expensive_merchants']
-      $scope.isBeanMerchant = logfile['settings']['shuffle_beans']
-      $scope.enabledMiscHints = logfile['settings']['misc_hints']      
+      $scope.enabled_shuffles["entrances_interior_simple"] = logfile['settings']['shuffle_interior_entrances'] != 'off';
+      $scope.enabled_shuffles["entrances_interior_special"] = logfile['settings']['shuffle_interior_entrances'] == 'all';
+      $scope.enabled_shuffles["entrances_grottos"] = logfile['settings']['shuffle_grotto_entrances'];
+      $scope.enabled_shuffles["entrances_dungeons"] = logfile['settings']['shuffle_dungeon_entrances'] != 'off';
+      $scope.enabled_shuffles["bosses"] = logfile['settings']['shuffle_bosses'] != 'off';
+      $scope.enabled_shuffles["entrances_overworld"] = logfile['settings']['shuffle_overworld_entrances'];
+      $scope.enabled_shuffles["owl_drops"] = logfile['settings']['owl_drops'];
+      $scope.enabled_shuffles["warp_songs"] = logfile['settings']['warp_songs'];
+      $scope.enabled_shuffles["song_items"] = logfile['settings']['shuffle_song_items'] != 'off';
+      $scope.enabled_shuffles["shops"] = logfile['settings']['shopsanity'] != 'off';
+      $scope.enabled_shuffles["tokens_overworld"] = ["all", "overworld"].includes(logfile['settings']['tokensanity']);
+      $scope.enabled_shuffles["tokens_dungeon"] = ["all", "dungeon"].includes(logfile['settings']['tokensanity']);
+      $scope.enabled_shuffles["scrubs"] = logfile['settings']['shuffle_scrubs'] != 'off';
+      // $scope.enabled_shuffles["trade_child"] = logfile['settings']['shuffle_child_trade'] != 'off';
+      // $scope.enabled_shuffles["freestanding_items"] = logfile['settings']['shuffle_freestanding_items'] != 'off';
+      // $scope.enabled_shuffles["pots"] = logfile['settings']['shuffle_pots'] != 'off';
+      // $scope.enabled_shuffles["crates"] = logfile['settings']['shuffle_crates'] != 'off';
+      $scope.enabled_shuffles["cows"] = logfile['settings']['shuffle_cows'];
+      // $scope.enabled_shuffles["beehives"] = logfile['settings']['shuffle_beehives'];
+      $scope.enabled_shuffles["kokiri_sword"] = logfile['settings']['shuffle_kokiri_sword'];
+      $scope.enabled_shuffles["ocarinas"] = logfile['settings']['shuffle_ocarinas'];
+      $scope.enabled_shuffles["gerudo_card"] = logfile['settings']['shuffle_gerudo_card'];
+      $scope.enabled_shuffles["beans"] = logfile['settings']['shuffle_beans'];
+      $scope.enabled_shuffles["expensive_merchants"] = logfile['settings']['shuffle_expensive_merchants'];
+      $scope.enabled_shuffles["frog_song_rupees"] = logfile['settings']['shuffle_frog_song_rupees'];
+      $scope.enabled_shuffles["ocarina_notes"] = logfile['settings']['shuffle_individual_ocarina_notes'];
+      $scope.enabled_shuffles["loach"] = logfile['settings']['shuffle_loach_reward'] != 'off';
+
+      $scope.enabled_misc_hints = logfile['settings']['misc_hints']      
       $scope.totalChecks = Object.keys(results).length;
       for (var loc in results) {
         item = typeof results[loc] == 'object' ? results[loc]['item'] : results[loc];
@@ -1249,7 +1252,7 @@ $scope.hasBossKey = function(dungeon) {
     $scope.updateForage();
   };
   
-  var forageItems = ['windRegionChild', 'windRegionAdult', 'peekedLocations', 'currentSeed', 'isShopsanity', 'shopContents', 'currentSpoilerLog', 'checkedHints', 'knownHints', 'allLocations', 'fsHash', 'checkedLocations', 'currentItemsAll', 'medallions', 'currentRegion', 'currentAge', 'knownMedallions', 'numChecksMade', 'totalChecks', 'gossipHints', 'itemCounts', 'usedChus', 'collectedWarps', 'finished', 'route', 'currentChild', 'currentAdult', 'playing', 'disableUndo', 'darkModeOn', 'actions', 'child_spawn', 'child_spawn_text', 'checked_child_spawn', 'adult_spawn', 'adult_spawn_text', 'checked_adult_spawn',]
+  var forageItems = ['windRegionChild', 'windRegionAdult', 'peekedLocations', 'currentSeed', 'shopContents', 'currentSpoilerLog', 'checkedHints', 'knownHints', 'allLocations', 'fsHash', 'checkedLocations', 'currentItemsAll', 'medallions', 'currentRegion', 'currentAge', 'knownMedallions', 'numChecksMade', 'totalChecks', 'gossipHints', 'itemCounts', 'usedChus', 'collectedWarps', 'finished', 'route', 'currentChild', 'currentAdult', 'playing', 'disableUndo', 'darkModeOn', 'actions', 'child_spawn', 'child_spawn_text', 'checked_child_spawn', 'adult_spawn', 'adult_spawn_text', 'checked_adult_spawn', 'enabled_misc_hints', 'enabled_shuffles']
   
   $scope.updateForage = function() {
     forageItems.forEach(function(item) {
