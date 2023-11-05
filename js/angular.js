@@ -1324,9 +1324,17 @@ $scope.hasBossKey = function(dungeon) {
       localforage.setItem(item, $scope[item]);
     });    
 
-    
-    var localChildSpawn = $scope['currentSpoilerLog']['entrances']['Child Spawn -> KF Links House']['region'] === undefined ? $scope['currentSpoilerLog']['entrances']['Child Spawn -> KF Links House'] : $scope['currentSpoilerLog']['entrances']['Child Spawn -> KF Links House']['region'];
-    var localAdultSpawn = $scope['currentSpoilerLog']['entrances']['Adult Spawn -> Temple of Time']['region'] === undefined ? $scope['currentSpoilerLog']['entrances']['Adult Spawn -> Temple of Time'] : $scope['currentSpoilerLog']['entrances']['Adult Spawn -> Temple of Time']['region'];
+    var localChildSpawn = 'KF Links House'
+    var localAdultSpawn = 'Temple of Time'
+
+    if ($scope['currentSpoilerLog'] && $scope['currentSpoilerLog']['entrances']) {
+      if ($scope['currentSpoilerLog']['entrances']['Child Spawn -> KF Links House']) {
+        localChildSpawn = $scope['currentSpoilerLog']['entrances']['Child Spawn -> KF Links House']['region']
+      }
+      if ($scope['currentSpoilerLog']['entrances']['Adult Spawn -> Temple of Time']) {
+        localAdultSpawn = $scope['currentSpoilerLog']['entrances']['Adult Spawn -> Temple of Time']['region']
+      }
+    }
 
     localforage.setItem('child_spawn', getSpawn(localChildSpawn));
     localforage.setItem('child_spawn_text', localChildSpawn);
