@@ -1165,7 +1165,7 @@ $scope.hasBossKey = function(dungeon) {
       $scope.enabled_shuffles["song_items"] = logfile['settings']['shuffle_song_items'] != 'off';
       $scope.enabled_shuffles["shops"] = logfile['settings']['shopsanity'] != 'off';
       $scope.enabled_shuffles["tokens_overworld"] = ["all", "overworld"].includes(logfile['settings']['tokensanity']);
-      $scope.enabled_shuffles["tokens_dungeon"] = ["all", "dungeon"].includes(logfile['settings']['tokensanity']);
+      $scope.enabled_shuffles["tokens_dungeon"] = ["all", "dungeons"].includes(logfile['settings']['tokensanity']);
       $scope.enabled_shuffles["scrubs"] = logfile['settings']['shuffle_scrubs'] != 'off';
       // $scope.enabled_shuffles["trade_child"] = logfile['settings']['shuffle_child_trade'] != 'off';
       // $scope.enabled_shuffles["freestanding_items"] = logfile['settings']['shuffle_freestanding_items'] != 'off';
