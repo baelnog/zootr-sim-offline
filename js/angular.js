@@ -462,7 +462,7 @@ $scope.undoCheck = function() {
         }
       }
     }
-    else if (lastCheckedLocation.startsWith('GS ')) {
+    else if (lastCheckedLocation.includes(' GS')) {
       $scope.currentItemsAll.splice($scope.currentItemsAll.lastIndexOf('Gold Skulltula Token'));
       $scope.itemCounts['Gold Skulltula Token']--;
     }
