@@ -288,6 +288,15 @@ hashImages = {
     'Small Key (Gerudo Training Ground)': "small_key.png",
     'Small Key (Gerudo Fortress)': "small_key.png",
     'Small Key (Ganons Castle)': "small_key.png",
+    'Small Key Ring (Forest Temple)': "small_key.png",
+    'Small Key Ring (Fire Temple)': "small_key.png",
+    'Small Key Ring (Water Temple)': "small_key.png",
+    'Small Key Ring (Spirit Temple)': "small_key.png",
+    'Small Key Ring (Shadow Temple)': "small_key.png",
+    'Small Key Ring (Bottom of the Well)': "small_key.png",
+    'Small Key Ring (Gerudo Training Ground)': "small_key.png",
+    'Small Key Ring (Gerudo Fortress)': "small_key.png",
+    'Small Key Ring (Ganons Castle)': "small_key.png",
     'Zeldas Letter': "letter.png",
     'Zeldas Lullaby': "zelda.png",
     'Eponas Song': "epona.png",
@@ -902,6 +911,18 @@ var dungeons = [
   'Gerudo Training Ground',
   'Ganon\'s Castle'
 ]
+
+var dungeonSmallKeyCount = {
+  'Forest Temple': 5,
+  'Fire Temple': 8,
+  'Water Temple': 6,
+  'Shadow Temple': 5,
+  'Spirit Temple': 5,
+  'Bottom of the Well': 3,
+  'Gerudo Training Ground': 9,
+  'Gerudo Fortress': 4,
+  'Ganons Castle': 2
+}
 
 var bosses = {
   'Links Pocket': 'Free',

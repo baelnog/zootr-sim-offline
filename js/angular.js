@@ -256,6 +256,16 @@ app.controller('simController', function($scope, $http) {
       $scope.currentItemsAll.push(item);
       $scope.route += loc + (importantItems.includes(item) ? ' ('+item+')' : '') + '\n';
       $scope.lastchecked = loc + ': ' + item;
+
+      if (item.startsWith('Small Key Ring')) {
+        var dungeon = item.split('(')[1].replace(')', '')
+        var smallKeyItem = 'Small Key (' + dungeon + ')'
+        $scope.itemCounts[smallKeyItem] = dungeonSmallKeyCount[dungeon];
+        if ($scope.enabled_shuffles['keyring_give_bk'] && $scope.hasBossKey(dungeon)) {
+          var bossKeyItem = 'Boss Key (' + dungeon + ')'
+          $scope.itemCounts[bossKeyItem] = 1;
+        }
+      }
       $scope.itemCounts[item]++;
       
       if (loc in bosses) {
@@ -423,23 +433,33 @@ $scope.undoCheck = function() {
     var lastCheckedLocation = mostRecent.split(':')[1];
     $scope.checkedLocations.pop();
     if (lastCheckedLocation in $scope.allLocations) {
-      $scope.currentItemsAll.splice($scope.currentItemsAll.lastIndexOf($scope.allLocations[lastCheckedLocation]));
+      var item = $scope.allLocations[lastCheckedLocation]
+      $scope.currentItemsAll.splice($scope.currentItemsAll.lastIndexOf());
       $scope.numChecksMade--;
       
-      $scope.itemCounts[$scope.allLocations[lastCheckedLocation]]--;
-      if(warpSongs.includes($scope.allLocations[lastCheckedLocation])) {
+      $scope.itemCounts[item]--;
+      if(warpSongs.includes(item)) {
         $scope.collectedWarps.pop();
       }
       if (lastCheckedLocation in bosses) {
         $scope.currentRegion = bosses[lastCheckedLocation];
         if (!$scope.checkedLocations.includes('ToT Adult Altar Hint')) {
-          if (!$scope.checkedLocations.includes('ToT Child Altar Hint') || !($scope.allLocations[lastCheckedLocation] == 'Kokiri Emerald' || $scope.allLocations[lastCheckedLocation] == 'Goron Ruby' || $scope.allLocations[lastCheckedLocation] == 'Zora Sapphire')) {
+          if (!$scope.checkedLocations.includes('ToT Child Altar Hint') || !(item == 'Kokiri Emerald' || item == 'Goron Ruby' || item == 'Zora Sapphire')) {
             $scope.knownMedallions[bosses[lastCheckedLocation]] = '???';
           }
         }
       }
       if (lastCheckedLocation == 'Impa at Castle') {
         $scope.currentRegion = 'Hyrule Castle';
+      }
+      if (item.startsWith('Small Key Ring')) {
+        var dungeon = item.split('(')[1].replace(')', '')
+        var smallKeyItem = 'Small Key (' + dungeon + ')'
+        $scope.itemCounts[smallKeyItem] = 0;
+        if ($scope.enabled_shuffles['keyring_give_bk'] && $scope.hasBossKey(dungeon)) {
+          var bossKeyItem = 'Boss Key (' + dungeon + ')'
+          $scope.itemCounts[bossKeyItem] = 0;
+        }
       }
     }
     else if (lastCheckedLocation.startsWith('GS ')) {
@@ -584,7 +604,6 @@ $scope.hasBossKey = function(dungeon) {
     'Fire Temple':0,
     'Water Temple':0,
     'Shadow Temple':0,
-    'Spirit Temple':0,
     'Spirit Temple':0,
     'Ganons Castle':0
   };
@@ -1164,6 +1183,7 @@ $scope.hasBossKey = function(dungeon) {
       $scope.enabled_shuffles["loach"] = logfile['settings']['shuffle_loach_reward'] != 'off';
       $scope.enabled_shuffles["free_bombchu_drops"] = logfile['settings']['free_bombchu_drops'];
       $scope.enabled_shuffles["blue_fire_arrows"] = logfile['settings']['blue_fire_arrows'];
+      $scope.enabled_shuffles["keyring_give_bk"] = logfile['settings']['keyring_give_bk'];
 
       if ($scope.enabled_shuffles["blue_fire_arrows"]) {
         var iceArrowIndex = $scope.itemgrid.indexOf('Ice Arrows')
