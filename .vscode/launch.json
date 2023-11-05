@@ -1,0 +1,15 @@
+{
+    "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",
+        "!**/node_modules/**"
+    ],
+    "configurations": [
+    {
+        "name": "Launch Edge",
+        "request": "launch",
+        "type": "pwa-msedge",
+        "url": "file://${workspaceFolder}/index.html",
+        "webRoot": "${workspaceFolder}"
+    }
+    ]
+}
