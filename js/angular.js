@@ -182,9 +182,9 @@ app.controller('simController', function($scope, $http) {
   
   $scope.itemgrid = [
     "Slingshot", "Bomb Bag", "Bow", "Fire Arrows", "Dins Fire", "Zeldas Lullaby", "Minuet of Forest", 
-  	"Progressive Wallet", "Boomerang", "Progressive Hookshot", "Light Arrows", "Farores Wind", "Eponas Song", "Bolero of Fire", 
-  	"Bottle", "Lens of Truth", "Megaton Hammer", "Magic Meter", "Nayrus Love", "Sarias Song", "Serenade of Water", 
-  	"Kokiri Sword", "Ocarina", "Iron Boots", "Progressive Strength Upgrade", "Stone of Agony", "Suns Song", "Requiem of Spirit", 
+  	"Progressive Wallet", "Boomerang", "Progressive Hookshot", "Ice Arrows", "Farores Wind", "Eponas Song", "Bolero of Fire", 
+  	"Bottle", "Lens of Truth", "Megaton Hammer", "Light Arrows", "Nayrus Love", "Sarias Song", "Serenade of Water", 
+  	"Kokiri Sword", "Ocarina", "Iron Boots", "Progressive Strength Upgrade", "Magic Meter", "Suns Song", "Requiem of Spirit", 
   	"Goron Tunic", "Zora Tunic", "Hover Boots", "Progressive Scale", "Child Trade", "Song of Time", "Nocturne of Shadow",
   	"Deku Shield", "Hylian Shield", "Mirror Shield", "Bombchus", "Adult Trade", "Song of Storms", "Prelude of Light", 
   ];
@@ -848,6 +848,8 @@ $scope.hasBossKey = function(dungeon) {
     'Boomerang': ['boomerang.png', 'boomerang.png'],
     'Progressive Hookshot': ['hookshotd.png', 'hookshot.png', 'longshot.png'],
     'Light Arrows': ['lightarrow.png', 'lightarrow.png'],
+    'Ice Arrows': ['icearrow.png', 'icearrow.png'],
+    'Blue Fire Arrows': ['icearrow.png', 'icearrow.png'],
     'Farores Wind': ['farore.png', 'farore.png'],
     'Eponas Song': ['epona.png', 'epona.png'],
     'Bolero of Fire': ['red_note.png', 'red_note.png'],
@@ -1161,7 +1163,20 @@ $scope.hasBossKey = function(dungeon) {
       $scope.enabled_shuffles["ocarina_notes"] = logfile['settings']['shuffle_individual_ocarina_notes'];
       $scope.enabled_shuffles["loach"] = logfile['settings']['shuffle_loach_reward'] != 'off';
       $scope.enabled_shuffles["free_bombchu_drops"] = logfile['settings']['free_bombchu_drops'];
-      
+      $scope.enabled_shuffles["blue_fire_arrows"] = logfile['settings']['blue_fire_arrows'];
+
+      if ($scope.enabled_shuffles["blue_fire_arrows"]) {
+        var iceArrowIndex = $scope.itemgrid.indexOf('Ice Arrows')
+        if (iceArrowIndex > 0) {
+          $scope.itemgrid[iceArrowIndex] = 'Blue Fire Arrows'
+        }
+      } else {
+        var blueFireArrowIndex = $scope.itemgrid.indexOf('Blue Fire Arrows')
+        if (blueFireArrowIndex > 0) {
+          $scope.itemgrid[blueFireArrowIndex] = 'Ice Arrows'
+        }
+      }
+
       $scope.enabled_misc_hints = logfile['settings']['misc_hints']
       $scope.is_csmc = logfile['settings']['correct_chest_appearances'] != 'off';
       $scope.totalChecks = Object.keys(results).length;
