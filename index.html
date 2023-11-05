@@ -80,8 +80,12 @@
 
 					<img class="peekicon"
 						ng-repeat-start="loc in getAvailableLocations()"
-						ng-if="canPeek(loc) &amp;&amp; !hasPeeked(loc)"
-						ng-click="peekAt(loc)" src="images/zootr-sim/eye.png" draggable="false">
+						ng-if="canPeek(loc)"
+						ng-click="peekAt(loc)" src="{{ getPeekIcon(loc) }}" draggable="false">
+
+					<img class="peekedicon"
+						ng-if="hasPeekedResult(loc)"
+						src="{{ getPeekedIcon(loc) }}" draggable="false">
 
 					<a class="location"						
 						ng-if="!checkedLocations.includes(loc) &amp;&amp; shouldAppearInLocations(loc)"

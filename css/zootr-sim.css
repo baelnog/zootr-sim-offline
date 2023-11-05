@@ -501,6 +501,15 @@ a#undo {
   margin-top: -2px;
 }
 
+.peekedicon {
+  height: 1.0em;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-left: 6px;
+  margin-right: 6px;
+  margin-top: -2px;
+}
+
 .main a {
   text-decoration: none;
   font-weight: bold;

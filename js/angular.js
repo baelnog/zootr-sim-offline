@@ -135,9 +135,9 @@ app.controller('simController', function($scope, $http) {
     }
 
     if (loc.shuffleGroup.startsWith('misc_hints')) {
-      hintType = loc.shuffleGroup.replace("misc_hints_")
+      hintType = loc.shuffleGroup.replace("misc_hints_", "")
 
-      if ($scope.enabled_misc_hints[hintType]) {
+      if ($scope.enabled_misc_hints.includes(hintType)) {
         return true
       }
     }
@@ -202,7 +202,7 @@ app.controller('simController', function($scope, $http) {
       }
       for (var key in $scope.medallions) {
         if (!$scope.currentItemsAll.includes($scope.medallions[key])) {
-          if ($scope.medallions[key].includes('Adult')) {
+          if ($scope.medallions[key].includes('Medallion')) {
             if ($scope.currentAge == 'Adult') {
               $scope.knownMedallions[key] = $scope.medallions[key];
             }
@@ -289,54 +289,131 @@ app.controller('simController', function($scope, $http) {
   };
 };
 
-$scope.peekAt = function(loc) {
-  var hintItem = $scope.allLocations[loc];
-  if (!(loc in $scope.knownHints)) {
-    $scope.knownHints[loc] = [hintItem];
+$scope.peekAt = function(loc_name) {
+  var loc = locationsByName[loc_name]
+  var hintItem = $scope.allLocations[loc_name];
+  if (loc.type == 'Chest') {
+    hintItem = $scope.getChestType(hintItem)
+  }
+  if (!(loc_name in $scope.knownHints)) {
+    $scope.knownHints[loc_name] = [hintItem];
   }
   else {
-    $scope.knownHints[loc].push(hintItem);
+    $scope.knownHints[loc_name].push(hintItem);
   }
-  $scope.peekedLocations.push(loc);
-  $scope.lastchecked = loc + ": " + hintItem;
-  $scope.actions.push("Peek:" + loc);
+  $scope.peekedLocations.push(loc_name);
+  $scope.lastchecked = loc_name + ": " + hintItem;
+  $scope.actions.push("Peek:" + loc_name);
   $scope.updateForage();
 };
 
-$scope.hasPeeked = function(loc) {
-  return $scope.peekedLocations.includes(loc);
+$scope.hasPeeked = function(loc_name) {
+  return $scope.peekedLocations.includes(loc_name);
 };
 
 $scope.canPeek = function(loc_name) {
+  if ($scope.hasPeeked(loc_name)) {
+    return false
+  }
+  return $scope.getPeekIcon(loc_name) != null
+}
+
+$scope.hasPeekedResult = function(loc_name) {
+  if (!$scope.hasPeeked(loc_name)) {
+    return false
+  }
+  return $scope.getPeekedIcon(loc_name) != null
+}
+
+$scope.getFreestandingImage = function(item) {
+  if (itemFreestandingImages[item]) {
+    return 'images/zootr-sim/' + itemFreestandingImages[item]
+  }
+}
+
+$scope.isMajorItem = function(item) {
+  if (majorItems.includes(item)) {
+    return true
+  }
+
+  if (item.startsWith('Bombchu') && $scope.enabled_shuffles['free_bombchu_drops']) {
+    return true
+  }
+
+  return false
+}
+
+$scope.getChestType = function(item) {
+  if (item.includes("Small Key") || item.includes("Key Ring")) {
+    return "Small Key Chest"
+  }
+  if (item.includes("Boss Key")) {
+    return "Boss Key Chest"
+  }
+  if (item.includes("Heart")) {
+    return "Heart Chest"
+  }
+  if (item == "Gold Skulltula Token") {
+    return "Gold Skulltula Token Chest"
+  }
+  if ($scope.isMajorItem(item)) {
+    return "Gold Chest"
+  }
+  return "Brown Chest"
+}
+
+$scope.getPeekedIcon = function(loc_name) {
   loc = locationsByName[loc_name]
-  if (loc.type == 'Freestanding') {
-    return true
-  }
-  if (loc.type == "Skulltula") {
-    return true
-  }
-  if (loc.type == "Shop") {
-    return true
-  }
-
-  if (loc_name.includes('Gold Skulltula Reward')) {
-    numSkulls = loc_name.match(/\d+/)[0]
-    if ($scope.enabled_misc_hints.includes("" + numSkulls + "_skulltulas")) {
-      return true
+  item = $scope.allLocations[loc_name]
+  if (loc.type == 'Chest' && $scope.is_csmc) {
+    var chest = $scope.getChestType(item)
+    if (chest == "Small Key Chest") {
+      return $scope.getFreestandingImage("Small Key")
     }
+    if (chest == "Boss Key Chest") {
+      return $scope.getFreestandingImage("Boss Key")
+    }
+    if (chest == "Heart Chest") {
+      return 'images/zootr-sim/chest_heart.png'
+    }
+    if (chest == "Gold Skulltula Token Chest") {
+      return $scope.getFreestandingImage("Gold Skulltula Token")
+    }
+    if (chest == "Gold Chest") {
+      return 'images/zootr-sim/chest_gold.png'
+    }
+    return 'images/zootr-sim/chest_brown.png'
   }
+  if (['Skulltula', 'Freestanding', 'Shop'].includes(loc.type)) {
+    return $scope.getFreestandingImage(item)
+  }
+  return null
+}
 
+$scope.getPeekIcon = function(loc_name) {
+  loc = locationsByName[loc_name]
+  if (loc.type == 'Chest' && $scope.is_csmc) {
+    return 'images/zootr-sim/eye.png'
+  }
+  if (loc.type == 'Skulltula') {
+    return 'images/zootr-sim/eye.png'
+  }
+  if (loc.type == 'Freestanding') {
+    return 'images/zootr-sim/eye.png'
+  }
+  if (loc.type == 'Shop') {
+    return 'images/zootr-sim/eye.png'
+  }
   if (loc_name == 'Frogs Ocarina Game' && $scope.enabled_misc_hints.includes['frogs2']) {
-    return true
+    return 'images/zootr-sim/eye.png'
   }
 
   if (loc.shuffleGroup == "expensive_merchants" || loc.shuffleGroup == "beans") {
     if ($scope.enabled_misc_hints.includes('unique_merchants')) {
-      return true
+      return 'images/zootr-sim/eye.png'
     }
   }
-
-  return false
+  return null
 }
 
 $scope.undoCheck = function() {
@@ -1083,27 +1160,14 @@ $scope.hasBossKey = function(dungeon) {
       $scope.enabled_shuffles["frog_song_rupees"] = logfile['settings']['shuffle_frog_song_rupees'];
       $scope.enabled_shuffles["ocarina_notes"] = logfile['settings']['shuffle_individual_ocarina_notes'];
       $scope.enabled_shuffles["loach"] = logfile['settings']['shuffle_loach_reward'] != 'off';
-
-      $scope.enabled_misc_hints = logfile['settings']['misc_hints']      
+      $scope.enabled_shuffles["free_bombchu_drops"] = logfile['settings']['free_bombchu_drops'];
+      
+      $scope.enabled_misc_hints = logfile['settings']['misc_hints']
+      $scope.is_csmc = logfile['settings']['correct_chest_appearances'] != 'off';
       $scope.totalChecks = Object.keys(results).length;
-      for (var loc in results) {
-        item = typeof results[loc] == 'object' ? results[loc]['item'] : results[loc];
-        var shop = getShop(loc);
-        if (shop != '') {
-          var cost = results[loc]['price'];
-          if (!(shop in $scope.shopContents)) {
-            $scope.shopContents[shop] = [];
-          }
-          var shopItem = {};
-          var refill = item.includes('Buy');
-          shopItem['item'] = refill ? item.split('Buy')[1].trim() : item;
-          shopItem['item'] = shopItem['item'].split('[')[0].trim();
-          shopItem['cost'] = cost;
-          shopItem['refill'] = refill;
-          shopItem['bought'] = false;
-          $scope.shopContents[shop].push(shopItem);
-        }        
-        $scope.allLocations[loc] = item;
+      for (var loc_name in results) {
+        item = typeof results[loc_name] == 'object' ? results[loc_name]['item'] : results[loc_name];  
+        $scope.allLocations[loc_name] = item;
         $scope.itemCounts[item] = 0;
       }
 
@@ -1178,6 +1242,7 @@ $scope.hasBossKey = function(dungeon) {
       $scope.updateForage();
     }
     catch(err) {
+      console.error(err)
       alert('Error parsing file! Please choose a randomizer spoiler log.');
     }
   };
@@ -1252,7 +1317,7 @@ $scope.hasBossKey = function(dungeon) {
     $scope.updateForage();
   };
   
-  var forageItems = ['windRegionChild', 'windRegionAdult', 'peekedLocations', 'currentSeed', 'shopContents', 'currentSpoilerLog', 'checkedHints', 'knownHints', 'allLocations', 'fsHash', 'checkedLocations', 'currentItemsAll', 'medallions', 'currentRegion', 'currentAge', 'knownMedallions', 'numChecksMade', 'totalChecks', 'gossipHints', 'itemCounts', 'usedChus', 'collectedWarps', 'finished', 'route', 'currentChild', 'currentAdult', 'playing', 'disableUndo', 'darkModeOn', 'actions', 'child_spawn', 'child_spawn_text', 'checked_child_spawn', 'adult_spawn', 'adult_spawn_text', 'checked_adult_spawn', 'enabled_misc_hints', 'enabled_shuffles']
+  var forageItems = ['windRegionChild', 'windRegionAdult', 'peekedLocations', 'currentSeed', 'shopContents', 'currentSpoilerLog', 'checkedHints', 'knownHints', 'allLocations', 'fsHash', 'checkedLocations', 'currentItemsAll', 'medallions', 'currentRegion', 'currentAge', 'knownMedallions', 'numChecksMade', 'totalChecks', 'gossipHints', 'itemCounts', 'usedChus', 'collectedWarps', 'finished', 'route', 'currentChild', 'currentAdult', 'playing', 'disableUndo', 'darkModeOn', 'actions', 'child_spawn', 'child_spawn_text', 'checked_child_spawn', 'adult_spawn', 'adult_spawn_text', 'checked_adult_spawn', 'enabled_misc_hints', 'enabled_shuffles', 'is_csmc']
   
   $scope.updateForage = function() {
     forageItems.forEach(function(item) {
