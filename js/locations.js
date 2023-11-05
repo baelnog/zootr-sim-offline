@@ -653,8 +653,8 @@ var staticAllLocations = [
   { name: "GF Chest", region: "Gerudo Fortress", type: "Chest", age: "adult" },
   { name: "GF HBA 1000 Points", region: "Gerudo Fortress", type: "NPC", age: "adult" },
   { name: "GF HBA 1500 Points", region: "Gerudo Fortress", type: "NPC", age: "adult" },
-  { name: "GF GS Top Floor", region: "Gerudo Fortress", type: "Skulltula", age: "adult" },
-  { name: "GF GS Archery Range", region: "Gerudo Fortress", type: "Skulltula", age: "adult" },
+  { name: "GF GS Top Floor", region: "Gerudo Fortress", type: "Skulltula", age: "adult", shuffleGroup: "tokens_overworld" },
+  { name: "GF GS Archery Range", region: "Gerudo Fortress", type: "Skulltula", age: "adult", shuffleGroup: "tokens_overworld" },
     // # Gerudo's Fortress Crates/Pots
     // ("GF Above Jail Crate",                                          ("Crate",        0x5D,  [(0,2,19),(0,3,19)], None,             'Rupees (50)',                           ("Gerudo's Fortress", "Crates",))),
 
