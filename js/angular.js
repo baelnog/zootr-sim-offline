@@ -237,10 +237,7 @@ app.controller('simController', function($scope, $http) {
     else if (loc == 'Light Arrows Hint') {
       $scope.checkedLocations.push(loc);
       var lightlocation = Object.keys($scope.allLocations).find(key => $scope.allLocations[key] === 'Light Arrows');
-      var lighthint = Object.keys(locationsByRegionAdult).find(key => locationsByRegionAdult[key].includes(lightlocation));
-      if (typeof lighthint == 'undefined') {
-        lighthint = Object.keys(locationsByRegionChild).find(key => locationsByRegionChild[key].includes(lightlocation));
-      }
+      var lighthint = locationsByName[lightlocation].region
       if (!(lighthint in $scope.knownHints)) {
         $scope.knownHints[lighthint] = ['Light Arrows'];
       }

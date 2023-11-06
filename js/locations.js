@@ -2134,8 +2134,8 @@ var staticAllLocations = [
   { name: "40 Skulltulas Reward Hint", region: "Kakariko Village", type: "Hint", shuffleGroup: "misc_hints_40_skulltulas" },
   { name: "50 Skulltulas Reward Hint", region: "Kakariko Village", type: "Hint", shuffleGroup: "misc_hints_50_skulltulas" },
   { name: "ZR Frogs Ocarina Minigame Hint", region: "Zora River", type: "Hint", shuffleGroup: "misc_hints_frogs" },
-  { name: "Ganondorf Hint", region: "Ganons Castle", type: "Hint", shuffleGroup: "misc_hints_ganondorf" },
-  
+  { name: "Light Arrows Hint", region: "Ganons Castle", type: "Hint", shuffleGroup: "misc_hints_ganondorf" },
+
   { name: "Links Pocket", region: "Links Pocket", type: "Boss" },
   { name: "Queen Gohma", region: "Deku Tree", type: "Boss" },
   { name: "King Dodongo", region: "Dodongos Cavern", type: "Boss" },
