@@ -89,9 +89,11 @@
 
 					<a class="location"						
 						ng-if="!checkedLocations.includes(loc) &amp;&amp; shouldAppearInLocations(loc)"
-						ng-click="checkLocation(loc)" id="{{loc}}">{{loc}}<br></a><span class="checked" ng-repeat-end
-
-						ng-if="checkedLocations.includes(loc)">{{ loc }}<br></span><br><a class="entrance"
+						ng-click="checkLocation(loc)" id="{{loc}}">{{loc}}<br></a>
+					<span class="checked" ng-repeat-end
+						ng-if="checkedLocations.includes(loc)">{{ loc }}<br></span>
+					<br>
+					<a class="entrance"
 						ng-repeat="entrance in getAvailableEntrances()" ng-click="takeEntrance(entrance)"
 						id="{{entrance}}">-> To {{entrance}}<br>
 					</a>

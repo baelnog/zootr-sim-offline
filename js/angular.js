@@ -130,6 +130,10 @@ app.controller('simController', function($scope, $http) {
 
   $scope.isLocationAvailable = function(loc) {
 
+    if (loc.type == 'Entrance') {
+      return false
+    }
+
     if (loc.shuffleGroup == null) {
       return true
     }
@@ -156,7 +160,19 @@ app.controller('simController', function($scope, $http) {
   }
   
   $scope.getAvailableEntrances = function() {
-    return $scope.currentAge == 'Child' ? entrancesByRegionChild[$scope.currentRegion] : entrancesByRegionAdult[$scope.currentRegion];
+
+    entrances = $scope.currentAge == 'Child' ? entrancesByRegionChild[$scope.currentRegion] : entrancesByRegionAdult[$scope.currentRegion];
+    if (entrances == null) {
+      entrances = []
+    }
+
+    baseLocations = $scope.currentAge == 'Child' ? locationsByRegionChild[$scope.currentRegion] : locationsByRegionAdult[$scope.currentRegion];
+    if (baseLocations) {
+      baseLocations = baseLocations.filter(loc => loc.type == 'Entrance' && (loc.shuffleGroup == null || $scope.enabled_shuffles[loc.shuffleGroup]))
+      entrances = Array.from(new Set(entrances.concat(baseLocations.map(loc => loc.name))))
+    }
+
+    return entrances
   }
   
   $scope.countChus = function() {
@@ -273,7 +289,12 @@ app.controller('simController', function($scope, $http) {
       }
       
       if (loc in regionChangingChecks) {
-        $scope.currentRegion = regionChangingChecks[loc];
+        if ($scope.enabled_shuffles['entrances_dungeons'] && loc in bosses) {
+          var dungeon = bosses[loc]
+          $scope.takeEntrance('Leave ' + dungeon)
+        } else {
+          $scope.currentRegion = regionChangingChecks[loc];
+        }
       }
       
       if (warpSongs.includes(item)) {
@@ -656,8 +677,19 @@ $scope.hasBossKey = function(dungeon) {
       $scope.lastchecked = 'Gift from Saria: ' + item;
       $scope.currentRegion = entrance;
     }
+    else if (entrance == 'Spirit Temple Hands') {
+      $scope.currentRegion = 'Desert Colossus';
+    }
     else {
-      $scope.currentRegion = entrance;
+      var entranceInfo = locationsByName[entrance]
+      if (entranceInfo && $scope.entrances[entranceInfo.checkName]) {
+        $scope.currentRegion = $scope.entrances[entranceInfo.checkName].region
+            .replace(' Lobby', '')
+            .replace(' Beginning', '')
+            .replace(' Entryway', '')
+      } else {
+        $scope.currentRegion = entrance;
+      }
     }
     $scope.updateForage();
   };
@@ -1206,6 +1238,22 @@ $scope.hasBossKey = function(dungeon) {
         $scope.itemCounts[item] = 0;
       }
 
+      // Massage entrances
+      $scope.entrances = logfile['entrances']
+      var entranceLocs = staticAllLocations.filter(loc => loc.type == 'Entrance')
+      for(var i in entranceLocs) {
+        var entrance = entranceLocs[i]
+        if ($scope.entrances[entrance.checkName]) {
+          var revEntranceData = $scope.entrances[entrance.checkName]
+          var revEntrance = revEntranceData.region + " -> " + revEntranceData.from
+          if ($scope.entrances[revEntrance] == null) {
+            var region = entrance.region
+            var from = entrance.checkName.split(" -> ")[1]
+            $scope.entrances[revEntrance] = { region: region, from: from }
+          }
+        }
+      }
+
       if (!('Kokiri Sword Chest' in $scope.allLocations)) {
         $scope.allLocations['Kokiri Sword Chest'] = 'Kokiri Sword';
       }
@@ -1352,7 +1400,7 @@ $scope.hasBossKey = function(dungeon) {
     $scope.updateForage();
   };
   
-  var forageItems = ['windRegionChild', 'windRegionAdult', 'peekedLocations', 'currentSeed', 'shopContents', 'currentSpoilerLog', 'checkedHints', 'knownHints', 'allLocations', 'fsHash', 'checkedLocations', 'currentItemsAll', 'medallions', 'currentRegion', 'currentAge', 'knownMedallions', 'numChecksMade', 'totalChecks', 'gossipHints', 'itemCounts', 'usedChus', 'collectedWarps', 'finished', 'route', 'currentChild', 'currentAdult', 'playing', 'disableUndo', 'darkModeOn', 'actions', 'child_spawn', 'child_spawn_text', 'checked_child_spawn', 'adult_spawn', 'adult_spawn_text', 'checked_adult_spawn', 'enabled_misc_hints', 'enabled_shuffles', 'is_csmc']
+  var forageItems = ['entrances', 'windRegionChild', 'windRegionAdult', 'peekedLocations', 'currentSeed', 'shopContents', 'currentSpoilerLog', 'checkedHints', 'knownHints', 'allLocations', 'fsHash', 'checkedLocations', 'currentItemsAll', 'medallions', 'currentRegion', 'currentAge', 'knownMedallions', 'numChecksMade', 'totalChecks', 'gossipHints', 'itemCounts', 'usedChus', 'collectedWarps', 'finished', 'route', 'currentChild', 'currentAdult', 'playing', 'disableUndo', 'darkModeOn', 'actions', 'child_spawn', 'child_spawn_text', 'checked_child_spawn', 'adult_spawn', 'adult_spawn_text', 'checked_adult_spawn', 'enabled_misc_hints', 'enabled_shuffles', 'is_csmc']
   
   $scope.updateForage = function() {
     forageItems.forEach(function(item) {
