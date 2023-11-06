@@ -909,7 +909,7 @@ var dungeons = [
   'Ice Cavern',
   'Bottom of the Well',
   'Gerudo Training Ground',
-  'Ganon\'s Castle'
+  'Ganons Castle'
 ]
 
 var dungeonSmallKeyCount = {

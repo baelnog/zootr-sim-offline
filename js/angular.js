@@ -166,8 +166,13 @@ app.controller('simController', function($scope, $http) {
   
   $scope.getAvailableEntrances = function() {
 
-    entrances = $scope.currentAge == 'Child' ? entrancesByRegionChild[$scope.currentRegion] : entrancesByRegionAdult[$scope.currentRegion];
+    var entrances = $scope.currentAge == 'Child' ? entrancesByRegionChild[$scope.currentRegion] : entrancesByRegionAdult[$scope.currentRegion];
     if (entrances == null) {
+      entrances = []
+    }
+
+    if (dungeons.includes($scope.currentRegion) && $scope.enabled_shuffles['entrances_dungeons']) {
+      // Don't use the hardcoded entraces for dungeons when DER is on.
       entrances = []
     }
 
