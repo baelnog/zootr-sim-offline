@@ -139,6 +139,11 @@ app.controller('simController', function($scope, $http) {
     }
 
     if (loc.shuffleGroup.startsWith('misc_hints')) {
+      // These hints have corresponding checks
+      if (loc.shuffleGroup.endsWith('frogs') || loc.shuffleGroup.endsWith('skulltulas')) {
+        return false
+      }
+
       hintType = loc.shuffleGroup.replace("misc_hints_", "")
 
       if ($scope.enabled_misc_hints.includes(hintType)) {
@@ -441,6 +446,14 @@ $scope.getPeekIcon = function(loc_name) {
 
   if (loc.shuffleGroup == "expensive_merchants" || loc.shuffleGroup == "beans") {
     if ($scope.enabled_misc_hints.includes('unique_merchants')) {
+      return 'images/zootr-sim/eye.png'
+    }
+  }
+  
+  if (loc_name.endsWith("Gold Skulltula Reward")) {
+    var count = loc_name.match(/\d+/)[0]
+    var hint_group = '' + count + '_skulltulas'
+    if ($scope.enabled_misc_hints.includes(hint_group)) {
       return 'images/zootr-sim/eye.png'
     }
   }
