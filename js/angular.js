@@ -173,7 +173,10 @@ app.controller('simController', function($scope, $http) {
 
     if (dungeons.includes($scope.currentRegion) && $scope.enabled_shuffles['entrances_dungeons']) {
       // Don't use the hardcoded entraces for dungeons when DER is on.
-      entrances = []
+      // Castle Shuffle not yet supported, so keep the hardcoded exit for that.
+      if ($scope.currentRegion != 'Ganons Castle') {
+        entrances = []
+      }
     }
 
     baseLocations = $scope.currentAge == 'Child' ? locationsByRegionChild[$scope.currentRegion] : locationsByRegionAdult[$scope.currentRegion];
