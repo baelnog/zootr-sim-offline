@@ -1335,6 +1335,13 @@ $scope.hasBossKey = function(dungeon) {
       $scope.enabled_shuffles["warp_songs"] = logfile['settings']['warp_songs'];
       $scope.enabled_shuffles["warp_owls"] = logfile['settings']['owl_drops'];
 
+      $scope.enabled_shuffles['trials_forest'] = logfile['trials']['Forest'] == 'active';
+      $scope.enabled_shuffles['trials_fire'] = logfile['trials']['Fire'] == 'active';
+      $scope.enabled_shuffles['trials_water'] = logfile['trials']['Water'] == 'active';
+      $scope.enabled_shuffles['trials_shadow'] = logfile['trials']['Shadow'] == 'active';
+      $scope.enabled_shuffles['trials_spirit'] = logfile['trials']['Spirit'] == 'active';
+      $scope.enabled_shuffles['trials_light'] = logfile['trials']['Light'] == 'active';
+
       if ($scope.enabled_shuffles["blue_fire_arrows"]) {
         var iceArrowIndex = $scope.itemgrid.indexOf('Ice Arrows')
         if (iceArrowIndex > 0) {
