@@ -112,6 +112,8 @@ app.controller('simController', function($scope, $http) {
     $scope.shopContents = {};
     
     $scope.actions = [];
+
+    $scope.disabled_locations = [];
   }
   
   $scope.init();
@@ -132,6 +134,10 @@ app.controller('simController', function($scope, $http) {
   }
 
   $scope.isLocationAvailable = function(loc) {
+
+    if ($scope.disabled_locations.includes(loc.name)) {
+      return false
+    }
 
     if (loc.type == 'Entrance') {
       return false
@@ -1342,6 +1348,8 @@ $scope.hasBossKey = function(dungeon) {
       $scope.enabled_shuffles['trials_spirit'] = logfile['trials']['Spirit'] == 'active';
       $scope.enabled_shuffles['trials_light'] = logfile['trials']['Light'] == 'active';
 
+      $scope.disabled_locations = logfile['settings']['disabled_locations']
+
       if ($scope.enabled_shuffles["blue_fire_arrows"]) {
         var iceArrowIndex = $scope.itemgrid.indexOf('Ice Arrows')
         if (iceArrowIndex > 0) {
@@ -1551,7 +1559,7 @@ $scope.hasBossKey = function(dungeon) {
     $scope.updateForage();
   };
   
-  var forageItems = ['entrances', 'windRegionChild', 'windRegionAdult', 'peekedLocations', 'currentSeed', 'shopContents', 'currentSpoilerLog', 'checkedHints', 'knownHints', 'allLocations', 'fsHash', 'checkedLocations', 'currentItemsAll', 'medallions', 'currentRegion', 'currentAge', 'knownMedallions', 'numChecksMade', 'totalChecks', 'gossipHints', 'itemCounts', 'usedChus', 'collectedWarps', 'finished', 'route', 'currentChild', 'currentAdult', 'playing', 'disableUndo', 'darkModeOn', 'actions', 'child_spawn', 'child_spawn_text', 'checked_child_spawn', 'adult_spawn', 'adult_spawn_text', 'checked_adult_spawn', 'enabled_misc_hints', 'enabled_shuffles', 'is_csmc']
+  var forageItems = ['entrances', 'windRegionChild', 'windRegionAdult', 'peekedLocations', 'currentSeed', 'shopContents', 'currentSpoilerLog', 'checkedHints', 'knownHints', 'allLocations', 'fsHash', 'checkedLocations', 'currentItemsAll', 'medallions', 'currentRegion', 'currentAge', 'knownMedallions', 'numChecksMade', 'totalChecks', 'gossipHints', 'itemCounts', 'usedChus', 'collectedWarps', 'finished', 'route', 'currentChild', 'currentAdult', 'playing', 'disableUndo', 'darkModeOn', 'actions', 'child_spawn', 'child_spawn_text', 'checked_child_spawn', 'adult_spawn', 'adult_spawn_text', 'checked_adult_spawn', 'enabled_misc_hints', 'enabled_shuffles', 'is_csmc', 'disabled_locations']
   
   $scope.updateForage = function() {
     forageItems.forEach(function(item) {
