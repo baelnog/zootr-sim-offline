@@ -221,6 +221,7 @@ app.controller('simController', function($scope, $http) {
 
     return entrances
   }
+
   $scope.getAvailableGrottosAndInteriors = function() {
     baseLocations = $scope.currentAge == 'Child' ? locationsByRegionChild[$scope.currentRegion] : locationsByRegionAdult[$scope.currentRegion];
     if (baseLocations == null) {
@@ -236,6 +237,18 @@ app.controller('simController', function($scope, $http) {
     return baseLocations.map(loc => loc.name)
   }
   
+  $scope.getAvailableWarps = function() {
+    baseLocations = $scope.currentAge == 'Child' ? locationsByRegionChild[$scope.currentRegion] : locationsByRegionAdult[$scope.currentRegion];
+    if (baseLocations == null) {
+      return null
+    }
+
+    baseLocations = baseLocations
+      .filter(loc => loc.type == 'Warp')
+
+    return baseLocations.map(loc => loc.name).concat($scope.collectedWarps)
+  }
+
   $scope.countChus = function() {
     var ownedChus = $scope.currentItemsAll.filter(item => item.includes('Bombchu'));
     return ownedChus.map(item => parseInt(item.substring(item.lastIndexOf('(') + 1, item.lastIndexOf(')')), 10)).reduce((a,b) => a + b, 0);
@@ -384,6 +397,18 @@ $scope.peekAt = function(loc_name) {
   if (loc.type == 'Chest') {
     hintItem = $scope.getChestType(hintItem)
   }
+  if (loc.type == 'Warp') {
+    destination = $scope.entrances[loc.checkName]
+    if (destination.region) {
+      hintItem = destination.region
+    } else {
+      hintItem = destination
+    }
+    // Don't spoil the Nocturne warp
+    if (hintItem.startsWith('Graveyard')) {
+      hintItem = 'Graveyard'
+    }
+  }
   if (!(loc_name in $scope.knownHints)) {
     $scope.knownHints[loc_name] = [hintItem];
   }
@@ -492,6 +517,12 @@ $scope.getPeekIcon = function(loc_name) {
   }
   if (loc.type == 'Shop') {
     return 'images/zootr-sim/eye.png'
+  }
+  if (loc.type == 'Warp') {
+    if ($scope.enabled_shuffles[loc.shuffleGroup]) {
+      return 'images/zootr-sim/eye.png'
+    }
+    return null
   }
   if (loc_name == 'Frogs Ocarina Game' && $scope.enabled_misc_hints.includes['frogs2']) {
     return 'images/zootr-sim/eye.png'
@@ -1300,6 +1331,8 @@ $scope.hasBossKey = function(dungeon) {
       $scope.enabled_shuffles["free_bombchu_drops"] = logfile['settings']['free_bombchu_drops'];
       $scope.enabled_shuffles["blue_fire_arrows"] = logfile['settings']['blue_fire_arrows'];
       $scope.enabled_shuffles["keyring_give_bk"] = logfile['settings']['keyring_give_bk'];
+      $scope.enabled_shuffles["warp_songs"] = logfile['settings']['warp_songs'];
+      $scope.enabled_shuffles["warp_owls"] = logfile['settings']['owl_drops'];
 
       if ($scope.enabled_shuffles["blue_fire_arrows"]) {
         var iceArrowIndex = $scope.itemgrid.indexOf('Ice Arrows')

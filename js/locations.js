@@ -2333,15 +2333,15 @@ var staticAllLocations = [
   { name: "Leave Graveyard Dampes Grave To Windmill", checkName: "Graveyard Dampes Grave -> Kak Windmill", region: "Graveyard Dampes Grave", to: "Kak Windmill", type: "Entrance", shuffleGroup: "entrances_grottos" },
   { name: "Leave Graveyard Dampes Grave To Windmill", checkName: "Graveyard Dampes Grave -> Kak Windmill", region: "Graveyard Dampes Grave", to: "Kak Windmill", type: "Entrance", shuffleGroup: "entrances_interior_special" },
 
-  { name: "LH Owl Flight", checkName: "LH Owl Flight -> Hyrule Field", region: "Lake Hylia", age: "child", type: "Warp", shuffleGroup: "warps_owls" },
-  { name: "DMT Owl Flight", checkName: "DMT Owl Flight -> Kak Impas Rooftop", region: "Death Mountain Trail", age: "child", type: "Warp", shuffleGroup: "warps_owls" },
+  { name: "LH Owl Flight", checkName: "LH Owl Flight -> Hyrule Field", region: "Lake Hylia", age: "child", type: "Warp", shuffleGroup: "warp_owls" },
+  { name: "DMT Owl Flight", checkName: "DMT Owl Flight -> Kak Impas Rooftop", region: "Death Mountain Trail", age: "child", type: "Warp", shuffleGroup: "warp_owls" },
 
-  { name: "Minuet of Forest", checkName: "Minuet of Forest Warp -> Sacred Forest Meadow", type: "Warp", shuffleGroup: "warps_songs" },
-  { name: "Bolero of Fire", checkName: "Bolero of Fire Warp -> DMC Central Local", type: "Warp", shuffleGroup: "warps_songs" },
-  { name: "Serenade of Water", checkName: "Serenade of Water Warp -> Lake Hylia", type: "Warp", shuffleGroup: "warps_songs" },
-  { name: "Requiem of Spirit", checkName: "Requiem of Spirit Warp -> Desert Colossus", type: "Warp", shuffleGroup: "warps_songs" },
-  { name: "Nocturne of Shadow", checkName: "Nocturne of Shadow Warp -> Graveyard Warp Pad Region", type: "Warp", shuffleGroup: "warps_songs" },
-  { name: "Prelude of Light", checkName: "Prelude of Light Warp -> Temple of Time", type: "Warp", shuffleGroup: "warps_songs" },
+  { name: "Minuet of Forest", checkName: "Minuet of Forest Warp -> Sacred Forest Meadow", type: "Warp", shuffleGroup: "warp_songs" },
+  { name: "Bolero of Fire", checkName: "Bolero of Fire Warp -> DMC Central Local", type: "Warp", shuffleGroup: "warp_songs" },
+  { name: "Serenade of Water", checkName: "Serenade of Water Warp -> Lake Hylia", type: "Warp", shuffleGroup: "warp_songs" },
+  { name: "Requiem of Spirit", checkName: "Requiem of Spirit Warp -> Desert Colossus", type: "Warp", shuffleGroup: "warp_songs" },
+  { name: "Nocturne of Shadow", checkName: "Nocturne of Shadow Warp -> Graveyard Warp Pad Region", type: "Warp", shuffleGroup: "warp_songs" },
+  { name: "Prelude of Light", checkName: "Prelude of Light Warp -> Temple of Time", type: "Warp", shuffleGroup: "warp_songs" },
 ];
 
 var regionsBySubregion = {
@@ -2419,7 +2419,7 @@ for (var i in staticAllLocations) {
 
     locationsByName[loc.name] = loc;
 
-    if (loc.type == 'Entrance' || loc.type == 'WarpSong') {
+    if (loc.type == 'Entrance' || loc.type == 'Warp') {
       entrancesByCheckName[loc.checkName] = loc
     }
 }

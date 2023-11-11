@@ -102,11 +102,20 @@
 						ng-repeat="entrance in getAvailableEntrances()" ng-click="takeEntrance(entrance)"
 						id="{{entrance}}">-> To {{entrance}}<br>
 					</a>
-					<p ng-if="collectedWarps.length &gt; 0">WARPS </p><a class="entrance"
-						ng-repeat="warp in collectedWarps" ng-click="takeEntrance(warp)" id="{{warp}}">-> Play
-						{{warp}}<br></a><br><a class="entrance" id="Savewarp {{currentAge}}"
-						ng-click="takeEntrance('Savewarp ' + currentAge)">-> Savewarp to
-						{{currentAge == 'Child' ? child_spawn_text : adult_spawn_text}}</a><br>
+					<p ng-if="collectedWarps.length &gt; 0">WARPS </p>
+					<img class="peekicon"
+						ng-repeat-start="warp in getAvailableWarps()"
+						ng-if="canPeek(warp)"
+						ng-click="peekAt(warp)" src="{{ getPeekIcon(warp) }}" draggable="false">
+
+					<a class="entrance"
+						ng-click="takeEntrance(warp)" id="{{warp}}" ng-repeat-end>-> Play
+						{{warp}}<br></a>
+					<br>
+					<a class="entrance" id="Savewarp {{currentAge}}"
+					ng-click="takeEntrance('Savewarp ' + currentAge)">-> Savewarp to
+					{{currentAge == 'Child' ? child_spawn_text : adult_spawn_text}}</a>
+					<br>
 				</div>
 			</div>
 			<div class="main hints"><span>AVAILABLE HINTS</span><br><br><a class="hint"
