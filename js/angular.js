@@ -123,7 +123,10 @@ app.controller('simController', function($scope, $http) {
       return null
     }
 
-    baseLocations = baseLocations.filter(loc => $scope.isLocationAvailable(loc))
+    baseLocations = baseLocations
+      .filter(loc => $scope.isLocationAvailable(loc))
+    baseLocations = baseLocations 
+      .filter(loc => $scope.currentRegion == loc.subregion || !$scope.isLocationSubregionShuffled(loc))
 
     return baseLocations.map(loc => loc.name);
   }
@@ -153,6 +156,14 @@ app.controller('simController', function($scope, $http) {
 
     return $scope.enabled_shuffles[loc.shuffleGroup]
   }
+  
+  $scope.isLocationSubregionShuffled = function(loc) {
+    if (loc.subregionShuffleGroup == null) {
+      return false
+    }
+
+    return $scope.enabled_shuffles[loc.subregionShuffleGroup]
+  }
 
   $scope.getAvailableSkulltulas = function() {
     baseLocations = $scope.currentAge == 'Child' ? locationsByRegionChild[$scope.currentRegion] : locationsByRegionAdult[$scope.currentRegion];
@@ -164,6 +175,25 @@ app.controller('simController', function($scope, $http) {
     return baseLocations.filter(loc => loc.type == 'Skulltula').map(loc => loc.name)
   }
   
+  $scope.getAvailableHints = function() {
+    baseLocations = $scope.currentAge == 'Child' ? locationsByRegionChild[$scope.currentRegion] : locationsByRegionAdult[$scope.currentRegion];
+
+    if (baseLocations == null) {
+      return null
+    }
+
+    if ($scope.currentRegion == 'Temple of Time' && $scope.enabled_shuffles["entrances_interiors_special"]) {
+      return null
+    }
+
+    baseLocations = baseLocations
+      .filter(loc => loc.type == 'HintStone')
+    baseLocations = baseLocations
+      .filter(loc => $scope.currentRegion == loc.subregion || !$scope.isLocationSubregionShuffled(loc))
+
+    return baseLocations.map(loc => loc.name)
+  }
+
   $scope.getAvailableEntrances = function() {
 
     var entrances = $scope.currentAge == 'Child' ? entrancesByRegionChild[$scope.currentRegion] : entrancesByRegionAdult[$scope.currentRegion];
@@ -672,10 +702,6 @@ $scope.hasBossKey = function(dungeon) {
       checked_adult_spawn = true;
       $scope.route += 'Savewarp\n';
     }
-    else if (entrance in songTargets) {
-      $scope.currentRegion = songTargets[entrance];
-      $scope.route += 'Play ' + entrance + '\n';
-    }
     else if ($scope.currentRegion == 'Kokiri Forest' && entrance == 'Hyrule Field' && $scope.currentAge == 'Child' && !$scope.checkedLocations.includes('Gift from Saria')) {
       $scope.checkedLocations.push('Gift from Saria');
       var item = '';
@@ -700,18 +726,37 @@ $scope.hasBossKey = function(dungeon) {
     }
     else {
       var entranceInfo = locationsByName[entrance]
-      if (entranceInfo && $scope.entrances[entranceInfo.checkName]) {
-        $scope.currentRegion = $scope.entrances[entranceInfo.checkName].region
-            .replace(' Lobby', '')
-            .replace(' Beginning', '')
-            .replace(' Entryway', '')
+      if (entranceInfo) {
+        var destination = ''
+        if ($scope.entrances[entranceInfo.checkName]) {
+          if ($scope.entrances[entranceInfo.checkName].region) {
+            destination = $scope.entrances[entranceInfo.checkName].region
+          } else {
+            destination = $scope.entrances[entranceInfo.checkName]
+          }
+        } else {
+          console.warn("Entrance " + entranceInfo.checkName + " not listed in spoiler")
+          var from = entranceInfo.checkName.split(' -> ')[0]
+          var to = entranceInfo.checkName.split(' -> ')[1]
+          var reverseEntranceInfo = entrancesByCheckName[to + " -> " + from]
+          if (reverseEntranceInfo) {
+            destination = reverseEntranceInfo.region;
+          } else {
+            destination = to
+          }
+        }
+
+        if (regionsBySubregion[destination]) {
+          destination = regionsBySubregion[destination]
+        }
+        $scope.currentRegion = destination
       } else {
         $scope.currentRegion = entrance;
       }
     }
     $scope.updateForage();
   };
-  
+
   $scope.dungeongrid = [
     'Deku Tree', 
     'Dodongos Cavern', 
@@ -1111,16 +1156,9 @@ $scope.hasBossKey = function(dungeon) {
     reader.readAsText(event.target.files[0]);
   }
   
-  $scope.checkHint = function(stone) {    
-    var hint = '';
-    if (stone == 'Generic Grotto') {
-      hint = $scope.gossipHints[stone];
-      $scope.checkedHints.push(stone);
-    }
-    else {
-      hint = $scope.gossipHints[$scope.currentRegion][stone];
-      $scope.checkedHints.push($scope.currentRegion + ' ' + stone);
-    }
+  $scope.checkHint = function(stone) {
+    var hint = $scope.gossipHints[stone];
+    $scope.checkedHints.push(stone);
     
     var hintInfo = parseHint(hint);    
     var hintLoc = hintInfo[0];
@@ -1204,8 +1242,8 @@ $scope.hasBossKey = function(dungeon) {
       $scope.adult_spawn_text = (logfile['randomized_settings']['starting_age'] == 'adult' || checked_adult_spawn) ? adultRegionText : '???';
       var results = logfile['locations'];
       $scope.fsHash = logfile['file_hash'];
-      $scope.enabled_shuffles["entrances_interior_simple"] = logfile['settings']['shuffle_interior_entrances'] != 'off';
-      $scope.enabled_shuffles["entrances_interior_special"] = logfile['settings']['shuffle_interior_entrances'] == 'all';
+      $scope.enabled_shuffles["entrances_interiors_simple"] = logfile['settings']['shuffle_interior_entrances'] != 'off';
+      $scope.enabled_shuffles["entrances_interiors_special"] = logfile['settings']['shuffle_interior_entrances'] == 'all';
       $scope.enabled_shuffles["entrances_grottos"] = logfile['settings']['shuffle_grotto_entrances'];
       $scope.enabled_shuffles["entrances_dungeons"] = logfile['settings']['shuffle_dungeon_entrances'] != 'off';
       $scope.enabled_shuffles["bosses"] = logfile['settings']['shuffle_bosses'] != 'off';
@@ -1259,15 +1297,43 @@ $scope.hasBossKey = function(dungeon) {
       // Massage entrances
       $scope.entrances = logfile['entrances']
       var entranceLocs = staticAllLocations.filter(loc => loc.type == 'Entrance')
+      
+      for(var i in entranceLocs) {
+        var entrance = entranceLocs[i]
+        if ($scope.entrances[entrance.checkName] != null) {
+          destinationData = $scope.entrances[entrance.checkName]
+          if (destinationData == null && !entrance.name.startsWith('Leave')) {
+            console.warn("Couldn't find entry for: " + entrance.checkName)
+          }
+        }
+      }
+
       for(var i in entranceLocs) {
         var entrance = entranceLocs[i]
         if ($scope.entrances[entrance.checkName]) {
-          var revEntranceData = $scope.entrances[entrance.checkName]
-          var revEntrance = revEntranceData.region + " -> " + revEntranceData.from
-          if ($scope.entrances[revEntrance] == null) {
+          var destinationData = $scope.entrances[entrance.checkName]
+          var leaveDestination
+          if (typeof(destinationData) == 'object') {
+            leaveDestination = destinationData.region + " -> " + destinationData.from
+            if (!(leaveDestination in entrancesByCheckName)) {
+              leaveDestination = entranceLocs
+                .filter(loc => loc.region == destinationData.region && loc.to == destinationData.to)[0].checkName
+            }
+          } else {
+            leaveDestination = locationsByName['Leave ' + destinationData].checkName
+          }
+          if (!(leaveDestination in entrancesByCheckName)) {
+            console.warn("For: [" + entrance.checkName + "] to " + (typeof(destinationData) == 'object' ? destinationData.from + " - > " + destinationData.region : destinationData))
+            console.warn("  Couldnt find: " + leaveDestination)
+          }
+          var revLoc = entrancesByCheckName[leaveDestination]
+          if (revLoc == null) {
+            // console.warn("Couldn't find " + revEntrance + " reversed from: " + entrance.checkName)
+          }
+          if ($scope.entrances[leaveDestination] == null) {
             var region = entrance.region
             var from = entrance.checkName.split(" -> ")[1]
-            $scope.entrances[revEntrance] = { region: region, from: from }
+            $scope.entrances[leaveDestination] = { region: region, from: from }
           }
         }
       }
@@ -1286,34 +1352,16 @@ $scope.hasBossKey = function(dungeon) {
       for (var item in logfile['starting_items']) {
         $scope.itemCounts[item] = logfile['starting_items'][item];
       }
-      for (var hint in logfile['gossip_stones']) {
-        region = hint.split('(')[0].trim();
-        if (region == 'Zoras River') region = 'Zora River';
-        if (region == 'Graveyard') region = 'Above Graveyard';
-        if (region == 'Kakariko') region = 'Kakariko Village';
-        stone = hint.split('(')[1].split(')')[0].trim();
-        if (!(region in $scope.gossipHints)) {
-          $scope.gossipHints[region] = {};
-        }
-        $scope.gossipHints[region][stone] = logfile['gossip_stones'][hint]['text'].replace(/#/g,'');
-      }
 
-      $scope.gossipHints['Kokiri Forest'] = $scope.gossipHints['KF'];
-      $scope.gossipHints['Lost Woods'] = $scope.gossipHints['LW'];
-      $scope.gossipHints['Sacred Forest Meadow'] = $scope.gossipHints['SFM'];
-      $scope.gossipHints['Death Mountain Crater'] = $scope.gossipHints['DMC'];
-      $scope.gossipHints['Death Mountain Trail'] = $scope.gossipHints['DMT'];
-      $scope.gossipHints['Goron City'] = $scope.gossipHints['GC'];
-      $scope.gossipHints['Gerudo Valley'] = $scope.gossipHints['GV'];
-      $scope.gossipHints['Hyrule Castle'] = $scope.gossipHints['HC'];
-      $scope.gossipHints['Hyrule Field'] = $scope.gossipHints['HF'];
-      $scope.gossipHints['Kakariko Village'] = $scope.gossipHints['Kak'];
-      $scope.gossipHints['Lake Hylia'] = $scope.gossipHints['LH'];
-      $scope.gossipHints['Temple of Time'] = $scope.gossipHints['ToT'];
-      $scope.gossipHints["Zoras Domain"] = $scope.gossipHints['ZD'];
-      $scope.gossipHints["Zoras Fountain"] = $scope.gossipHints['ZF'];
-      $scope.gossipHints["Zora River"] = $scope.gossipHints['ZR'];
-      $scope.gossipHints["Desert Colossus"] = $scope.gossipHints['Colossus']
+      var hintStones = staticAllLocations.filter(loc => loc.type == 'HintStone')
+      for (var i in hintStones) {
+        var loc = hintStones[i]
+        var hint = logfile['gossip_stones'][loc.checkName]
+        if (hint == null) {
+          console.warn("Could not find hint entry for " + loc.checkName)
+        }
+        $scope.gossipHints[loc.name] = hint['text'].replace(/#/g,'')
+      }
 
       $scope.checkedLocations.push('Links Pocket');
       $scope.currentItemsAll.push($scope.allLocations['Links Pocket']);

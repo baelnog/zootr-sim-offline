@@ -105,10 +105,10 @@
 				</div>
 			</div>
 			<div class="main hints"><span>AVAILABLE HINTS</span><br><br><a class="hint"
-					ng-repeat-start="(k,v) in gossipHints[currentRegion]"
-					ng-if="!checkedHints.includes(currentRegion + ' ' + k)" ng-click="checkHint(k)"
+					ng-repeat-start="k in getAvailableHints(currentRegion)"
+					ng-if="!checkedHints.includes(k)" ng-click="checkHint(k)"
 					id="{{k}}">{{k}}<br></a><span class="hint checked" ng-repeat-end
-					ng-if="checkedHints.includes(currentRegion + ' ' + k)">{{k}}<br></span><br>
+					ng-if="checkedHints.includes(k)">{{k}}<br></span><br>
 				<table class="hint-table">
 					<tr>
 						<th colspan="2">KNOWN HINTS</th>
