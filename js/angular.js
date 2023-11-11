@@ -209,13 +209,31 @@ app.controller('simController', function($scope, $http) {
       }
     }
 
+    var grottosAndInteriorShuffles = ['entrances_interiors_simple', 'entrances_interiors_special', 'entrances_grottos']
     baseLocations = $scope.currentAge == 'Child' ? locationsByRegionChild[$scope.currentRegion] : locationsByRegionAdult[$scope.currentRegion];
     if (baseLocations) {
-      baseLocations = baseLocations.filter(loc => loc.type == 'Entrance' && (loc.shuffleGroup == null || $scope.enabled_shuffles[loc.shuffleGroup]))
+      baseLocations = baseLocations
+        .filter(loc => loc.type == 'Entrance')
+        .filter(loc => !grottosAndInteriorShuffles.includes(loc.shuffleGroup))
+        .filter(loc => loc.shuffleGroup == null || $scope.enabled_shuffles[loc.shuffleGroup])
       entrances = Array.from(new Set(entrances.concat(baseLocations.map(loc => loc.name))))
     }
 
     return entrances
+  }
+  $scope.getAvailableGrottosAndInteriors = function() {
+    baseLocations = $scope.currentAge == 'Child' ? locationsByRegionChild[$scope.currentRegion] : locationsByRegionAdult[$scope.currentRegion];
+    if (baseLocations == null) {
+      return null
+    }
+
+    var grottosAndInteriorShuffles = ['entrances_interiors_simple', 'entrances_interiors_special', 'entrances_grottos']
+    baseLocations = baseLocations
+      .filter(loc => loc.type == 'Entrance')
+      .filter(loc => grottosAndInteriorShuffles.includes(loc.shuffleGroup))
+      .filter(loc => $scope.enabled_shuffles[loc.shuffleGroup])
+
+    return baseLocations.map(loc => loc.name)
   }
   
   $scope.countChus = function() {

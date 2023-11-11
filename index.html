@@ -94,6 +94,11 @@
 						ng-if="checkedLocations.includes(loc)">{{ loc }}<br></span>
 					<br>
 					<a class="entrance"
+						ng-repeat="entrance in getAvailableGrottosAndInteriors()" ng-click="takeEntrance(entrance)"
+						id="{{entrance}}">-> To {{entrance}}<br>
+					</a>
+					<br>
+					<a class="entrance"
 						ng-repeat="entrance in getAvailableEntrances()" ng-click="takeEntrance(entrance)"
 						id="{{entrance}}">-> To {{entrance}}<br>
 					</a>
