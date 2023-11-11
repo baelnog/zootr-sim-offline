@@ -1357,7 +1357,9 @@ $scope.hasBossKey = function(dungeon) {
 
       // Massage entrances
       $scope.entrances = logfile['entrances']
-      var entranceLocs = staticAllLocations.filter(loc => loc.type == 'Entrance')
+      var entranceLocs = staticAllLocations
+        .filter(loc => loc.type == 'Entrance')
+        .filter(loc => loc.shuffleGroup == null || $scope.enabled_shuffles[loc.shuffleGroup])
       
       for(var i in entranceLocs) {
         var entrance = entranceLocs[i]
@@ -1377,8 +1379,17 @@ $scope.hasBossKey = function(dungeon) {
           if (typeof(destinationData) == 'object') {
             leaveDestination = destinationData.region + " -> " + destinationData.from
             if (!(leaveDestination in entrancesByCheckName)) {
-              leaveDestination = entranceLocs
-                .filter(loc => loc.region == destinationData.region && loc.to == destinationData.to)[0].checkName
+              var destinationFromRegion = destinationData.from
+              if (regionsBySubregion[destinationFromRegion]) {
+                destinationFromRegion = regionsBySubregion[destinationFromRegion]
+              }
+              var candidates = entranceLocs
+                .filter(loc => loc.region == destinationData.region && loc.to == destinationFromRegion)
+              if (candidates[0] == null) {
+                console.warn("No candidates for reversing " + entrance.checkName + "to: " + destinationData.region)
+                continue
+              }
+              leaveDestination = candidates[0].checkName
             }
           } else {
             leaveDestination = locationsByName['Leave ' + destinationData].checkName
