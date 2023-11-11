@@ -746,15 +746,17 @@ $scope.hasBossKey = function(dungeon) {
       var entranceInfo = locationsByName[entrance]
       if (entranceInfo) {
         var destination = ''
+        var from = ''
         if ($scope.entrances[entranceInfo.checkName]) {
           if ($scope.entrances[entranceInfo.checkName].region) {
             destination = $scope.entrances[entranceInfo.checkName].region
+            from = $scope.entrances[entranceInfo.checkName].from
           } else {
             destination = $scope.entrances[entranceInfo.checkName]
           }
         } else {
           console.warn("Entrance " + entranceInfo.checkName + " not listed in spoiler")
-          var from = entranceInfo.checkName.split(' -> ')[0]
+          from = entranceInfo.checkName.split(' -> ')[0]
           var to = entranceInfo.checkName.split(' -> ')[1]
           var reverseEntranceInfo = entrancesByCheckName[to + " -> " + from]
           if (reverseEntranceInfo) {
@@ -764,10 +766,18 @@ $scope.hasBossKey = function(dungeon) {
           }
         }
 
+        if (entranceInfo.type == 'Warp') {
+          $scope.lastchecked = entranceInfo.name + " to " + destination
+          if (from) {
+            $scope.lastchecked += " (from " + from + ")";
+          }
+        }
+
         if (regionsBySubregion[destination]) {
           destination = regionsBySubregion[destination]
         }
         $scope.currentRegion = destination
+
       } else {
         $scope.currentRegion = entrance;
       }
