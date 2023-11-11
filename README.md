@@ -1,4 +1,4 @@
-zootr-sim-offline - works with 7.1 dev branch
+zootr-sim-offline - works with 8.0
 
 https://baelnog.github.io/zootr-sim-offline/
 
