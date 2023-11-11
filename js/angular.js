@@ -276,7 +276,7 @@ app.controller('simController', function($scope, $http) {
   	"Bottle", "Lens of Truth", "Megaton Hammer", "Light Arrows", "Nayrus Love", "Sarias Song", "Serenade of Water", 
   	"Kokiri Sword", "Ocarina", "Iron Boots", "Progressive Strength Upgrade", "Magic Meter", "Suns Song", "Requiem of Spirit", 
   	"Goron Tunic", "Zora Tunic", "Hover Boots", "Progressive Scale", "Child Trade", "Song of Time", "Nocturne of Shadow",
-  	"Deku Shield", "Hylian Shield", "Mirror Shield", "Bombchus", "Adult Trade", "Song of Storms", "Prelude of Light", 
+  	"Deku Shield", "Hylian Shield", "Mirror Shield", "Bombchus", "Adult Trade", "Song of Storms", "Prelude of Light",
   ];
   
   $scope.buildRoute = function() {
@@ -1050,7 +1050,8 @@ $scope.hasBossKey = function(dungeon) {
     'Mirror Shield': ['shield3.png', 'shield3.png'],
     'Bombchus': ['bombchu.png', 'bombchu.png'],
     'Song of Storms': ['songofstorms.png', 'songofstorms.png'],
-    'Prelude of Light': ['yellow_note.png', 'yellow_note.png']
+    'Prelude of Light': ['yellow_note.png', 'yellow_note.png'],
+    'Gerudo Membership Card': ['gerudo-card_32x32.png', 'gerudo-card_32x32.png']
   };
   
   $scope.settingsPreset = '';
@@ -1344,6 +1345,11 @@ $scope.hasBossKey = function(dungeon) {
         if (blueFireArrowIndex > 0) {
           $scope.itemgrid[blueFireArrowIndex] = 'Ice Arrows'
         }
+      }
+
+      if ($scope.enabled_shuffles["gerudo_card"]) {
+        $scope.itemgrid.push("Gerudo Membership Card")
+        $scope.itemCounts["Gerudo Membership Card"] = 0;
       }
 
       $scope.enabled_misc_hints = logfile['settings']['misc_hints']
