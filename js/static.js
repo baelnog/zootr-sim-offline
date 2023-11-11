@@ -892,7 +892,7 @@ var songTargets = {
   'Minuet of Forest': 'Sacred Forest Meadow',
   'Bolero of Fire': 'Death Mountain Crater',
   'Serenade of Water': 'Lake Hylia',
-  'Nocturne of Shadow': 'Above Graveyard',
+  'Nocturne of Shadow': 'Graveyard Warp Pad Region',
   'Requiem of Spirit': 'Desert Colossus',
   'Prelude of Light': 'Temple of Time'
 }
@@ -944,7 +944,7 @@ var regionChangingChecks = {
   'Phantom Ganon': 'Kokiri Forest',
   'Volvagia': 'Death Mountain Crater',
   'Morpha': 'Lake Hylia',
-  'Bongo Bongo': 'Above Graveyard',
+  'Bongo Bongo': 'Graveyard Warp Pad Region',
   'Twinrova': 'Desert Colossus',
 };
 
@@ -967,7 +967,7 @@ var entrancesByRegionChild = {
   'Spirit Temple': ['Desert Colossus'],
   'Kakariko Village': ['Hyrule Field', 'Bottom of the Well', 'Death Mountain Trail', 'Graveyard'],
   'Bottom of the Well': ['Kakariko Village'],
-  'Above Graveyard': ['Graveyard'],
+  'Graveyard Warp Pad Region': ['Graveyard'],
   'Graveyard': ['Kakariko Village'],
   'Death Mountain Trail': ['Death Mountain Crater', 'Goron City', 'Kakariko Village', 'Dodongos Cavern'],
   'Death Mountain Crater': ['Death Mountain Trail'],
@@ -1017,8 +1017,8 @@ var entrancesByRegionAdult = {
   'Spirit Temple': ['Desert Colossus'],
   'Kakariko Village': ['Hyrule Field', 'Death Mountain Trail', 'Graveyard'],
   'Graveyard': ['Kakariko Village'],
-  'Above Graveyard': ['Shadow Temple', 'Graveyard'],
-  'Shadow Temple': ['Above Graveyard'],
+  'Graveyard Warp Pad Region': ['Shadow Temple', 'Graveyard'],
+  'Shadow Temple': ['Graveyard Warp Pad Region'],
   'Death Mountain Trail': ['Death Mountain Crater', 'Goron City', 'Kakariko Village', 'Dodongos Cavern'],
   'Death Mountain Crater': ['Death Mountain Trail', 'Fire Temple', 'Goron City'],
   'Fire Temple': ['Death Mountain Crater'],
@@ -1041,7 +1041,7 @@ var gossipStonesByRegionAdult = {
     'Dodongos Cavern': ['Bombable Wall'],
     'Gerudo Valley': ['Waterfall'],
     'Goron City': ['Maze', 'Medigoron'],
-    'Above Graveyard': ['Shadow Temple'],
+    'Graveyard Warp Pad Region': ['Shadow Temple'],
     'Hyrule Castle': ['Malon', 'Rock Wall'],
     'Kokiri Forest': ['Deku Tree Left', 'Deku Tree Right'],
     'Lake Hylia': ['Lab', 'Southeast Corner', 'Southwest Corner'],

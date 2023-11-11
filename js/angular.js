@@ -128,7 +128,7 @@ app.controller('simController', function($scope, $http) {
     baseLocations = baseLocations 
       .filter(loc => $scope.currentRegion == loc.subregion || !$scope.isLocationSubregionShuffled(loc))
 
-    return baseLocations.map(loc => loc.name);
+    return Array.from(new Set(baseLocations.map(loc => loc.name)));
   }
 
   $scope.isLocationAvailable = function(loc) {
