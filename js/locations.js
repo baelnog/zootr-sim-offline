@@ -406,7 +406,7 @@ var staticAllLocations = [
     // ("DMT Storms Grotto Beehive 2",                                  ("Beehive",      0x3E, (0,0,0x49 + (0x17 * 2)), None,          'Rupees (20)',                           ("Death Mountain Trail", "Grottos", "Beehives",))),
 
     // # Goron City
-  { name: "GC Maze Left Chest", region: "Goron City", type: "Chest", age: "adult" },
+  { name: "GC Maze Left Chest", region: "Goron City", type: "Chest" },
   { name: "GC Maze Center Chest", region: "Goron City", type: "Chest" },
   { name: "GC Maze Right Chest", region: "Goron City", type: "Chest" },
   { name: "GC GS Boulder Maze", region: "Goron City", type: "Skulltula", age: "child", shuffleGroup: "tokens_overworld" },
