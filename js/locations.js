@@ -380,7 +380,7 @@ var staticAllLocations = [
   { name: "DMT Chest", region: "Death Mountain Trail", type: "Chest" },
   { name: "DMT GS Above Dodongos Cavern", region: "Death Mountain Trail", type: "Skulltula", age: "adult", shuffleGroup: "tokens_overworld" },
   { name: "DMT Storms Grotto Chest", region: "Death Mountain Trail", subregion: "DMT Storms Grotto", subregionShuffleGroup: "entrances_grottos", type: "Chest" },
-  { name: "DMT Cows Grotto Cow", region: "Death Mountain Trail", subregion: "DMT Cow Grotto", subregionShuffleGroup: "entrances_grottos", type: "NPC", shuffleGroup: "cows" },
+  { name: "DMT Cow Grotto Cow", region: "Death Mountain Trail", subregion: "DMT Cow Grotto", subregionShuffleGroup: "entrances_grottos", type: "NPC", shuffleGroup: "cows" },
   { name: "DMT GS Falling Rocks Path", region: "Death Mountain Trail", type: "Skulltula", age: "adult", shuffleGroup: "tokens_overworld" },
   { name: "DMT Great Fairy Reward", region: "Death Mountain Trail", region: "Death Mountain Trail", subregion: "DMT Great Fairy Fountain", subregionShuffleGroup: "entrances_interior_simple", type: "Cutscene" },
   { name: "DMT Biggoron", region: "Death Mountain Trail", type: "NPC", age: "adult" },
