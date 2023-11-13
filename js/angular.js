@@ -1277,6 +1277,9 @@ $scope.hasBossKey = function(dungeon) {
     adult_spawn = logfile['entrances']['Adult Spawn -> Temple of Time']['region'];   
 
     var spawn_age = logfile['randomized_settings']['starting_age'];
+    if (spawn_age == null) {
+      spawn_age = logfile['settings']['starting_age'];
+    }
 
     checked_child_spawn = spawn_age == 'child' ? true : checked_child_spawn;
     checked_adult_spawn = spawn_age == 'adult' ? true : checked_adult_spawn;
@@ -1291,7 +1294,7 @@ $scope.hasBossKey = function(dungeon) {
 
       $scope.child_spawn = childRegion;
       child_spawn = childRegion;
-      $scope.child_spawn_text = (logfile['randomized_settings']['starting_age'] == 'child' || checked_child_spawn) ? childRegionText : '???';
+      $scope.child_spawn_text = (spawn_age == 'child' || checked_child_spawn) ? childRegionText : '???';
       child_spawn_text = childRegionText;
 
       var adultRegion = logfile['entrances']['Adult Spawn -> Temple of Time']['region'] === undefined ? logfile['entrances']['Adult Spawn -> Temple of Time'] : logfile['entrances']['Adult Spawn -> Temple of Time']['region'];
@@ -1301,8 +1304,8 @@ $scope.hasBossKey = function(dungeon) {
       $scope.adult_spawn = adultRegion;
       adult_spawn = adultRegion;
       adult_spawn_text = adultRegionText;
-      //$scope.adult_spawn_text = logfile['randomized_settings']['starting_age'] == 'adult' ? logfile['entrances']['Adult Spawn -> Temple of Time']['region'] : '???';
-      $scope.adult_spawn_text = (logfile['randomized_settings']['starting_age'] == 'adult' || checked_adult_spawn) ? adultRegionText : '???';
+      //$scope.adult_spawn_text = spawn_age == 'adult' ? logfile['entrances']['Adult Spawn -> Temple of Time']['region'] : '???';
+      $scope.adult_spawn_text = (spawn_age == 'adult' || checked_adult_spawn) ? adultRegionText : '???';
       var results = logfile['locations'];
       $scope.fsHash = logfile['file_hash'];
       $scope.enabled_shuffles["entrances_interiors_simple"] = logfile['settings']['shuffle_interior_entrances'] != 'off';
@@ -1466,11 +1469,11 @@ $scope.hasBossKey = function(dungeon) {
       $scope.playing = true;
       $scope.route += '---- CHILD ' + $scope.currentChild + ' ----\n\n';
 
-      // $scope.currentRegion = $scope.adult_spawn_text = logfile['randomized_settings']['starting_age'] == 'child' 
+      // $scope.currentRegion = $scope.adult_spawn_text = spawn_age == 'child' 
       // ? logfile['entrances']['Child Spawn -> KF Links House']['region'] 
       // : logfile['entrances']['Adult Spawn -> Temple of Time']['region'];
 
-      $scope.currentAge = logfile['randomized_settings']['starting_age'] == 'child' ? 'Child' : 'Adult';
+      $scope.currentAge = spawn_age == 'child' ? 'Child' : 'Adult';
 
       $scope.currentRegion = $scope.currentAge == 'Child' ? childRegion : adultRegion;
       $scope.checkLocation('Song from Impa')
