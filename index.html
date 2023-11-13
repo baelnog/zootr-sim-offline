@@ -68,8 +68,8 @@
 					</div>
 				</div><br><br><span ng-if="countChus() - usedChus &gt; 0">Bombchus: {{countChus() - usedChus}} </span><a
 					class="useChu" ng-if="countChus() - usedChus &gt; 0" ng-click="useChu()">Use Bombchu</a><br><br><a
-					ng-if="currentItemsAll.includes('Farores Wind') &amp;&amp; currentItemsAll.includes('Magic Meter') &amp;&amp; ((currentAge == 'Child' &amp;&amp; windRegionChild == '') || (currentAge == 'Adult' &amp;&amp; windRegionAdult == ''))"
-					ng-click="setWind()">Set Wind</a><a
+					ng-if="currentItemsAll.includes('Farores Wind') &amp;&amp; currentItemsAll.includes('Magic Meter')"
+					ng-click="setWind()">Set Wind</a><br><a
 					ng-if="currentItemsAll.includes('Farores Wind') &amp;&amp; currentItemsAll.includes('Magic Meter') &amp;&amp; ((currentAge == 'Child' &amp;&amp; windRegionChild != '') || (currentAge == 'Adult' &amp;&amp; windRegionAdult != ''))"
 					ng-click="recallWind()">Recall Wind
 					({{currentAge == 'Child' ? windRegionChild : windRegionAdult}})</a>
