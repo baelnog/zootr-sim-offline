@@ -2385,6 +2385,16 @@ var regionsBySubregion = {
   'ZF Ice Ledge': 'Zoras Fountain'
 }
 
+getRegion = function(region_name) {
+  if (regionsBySubregion[region_name]) {
+    return regionsBySubregion[region_name]
+  }
+  if (getSpawn(region_name)) {
+    return getSpawn(region_name)
+  }
+  return region_name
+}
+
 var locationsByRegionAdult = {};
 var locationsByRegionChild = {};
 var locationsByName = {};
