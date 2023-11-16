@@ -1439,8 +1439,11 @@ $scope.hasBossKey = function(dungeon) {
       $scope.itemCounts['Gold Skulltula Token'] = 0;
       $scope.itemCounts['Kokiri Sword'] = 0;
       $scope.itemCounts['Nayrus Love'] = 0;
-      for (var item in logfile['starting_items']) {
-        $scope.itemCounts[item] = logfile['starting_items'][item];
+      for (var item in logfile['settings']['starting_items']) {
+        $scope.itemCounts[item] = logfile['settings']['starting_items'][item];
+        if (warpSongs.includes(item)) {
+          $scope.collectedWarps.push(item);
+        }
       }
 
       var hintStones = staticAllLocations.filter(loc => loc.type == 'HintStone')
@@ -1454,8 +1457,15 @@ $scope.hasBossKey = function(dungeon) {
       }
 
       $scope.checkedLocations.push('Links Pocket');
-      $scope.currentItemsAll.push($scope.allLocations['Links Pocket']);
-      $scope.numChecksMade++;
+      for (var loc in logfile[':skipped_locations']) {
+        $scope.currentItemsAll.push(logfile[':skipped_locations'][loc]);
+        $scope.numChecksMade++;
+      }
+      if (logfile['settings']['enhance_map_compass'] && logfile['settings']['shuffle_mapcompass'] == 'startwith') {
+        for (var loc in bosses) {
+          $scope.knownMedallions[bosses[loc]] = logfile['locations'][loc];
+        }
+      }
       $scope.knownMedallions['Free'] = $scope.allLocations['Links Pocket'];
       $scope.medallions['Free'] = $scope.allLocations['Links Pocket'];
       $scope.medallions['Deku Tree'] = $scope.allLocations['Queen Gohma'];
