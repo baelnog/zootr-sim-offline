@@ -83,6 +83,9 @@
 						ng-if="canPeek(loc)"
 						ng-click="peekAt(loc)" src="{{ getPeekIcon(loc) }}" draggable="false">
 
+					<a class="location"
+						ng-if="hasPeekedResult(loc) && getPrice(loc)">{{getPrice(loc)}}</a>
+
 					<img class="peekedicon"
 						ng-if="hasPeekedResult(loc)"
 						src="{{ getPeekedIcon(loc) }}" draggable="false">
