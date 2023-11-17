@@ -967,7 +967,7 @@ var entrancesByRegionChild = {
   'Spirit Temple': ['Desert Colossus'],
   'Kakariko Village': ['Hyrule Field', 'Bottom of the Well', 'Death Mountain Trail', 'Graveyard'],
   'Bottom of the Well': ['Kakariko Village'],
-  'Graveyard Warp Pad Region': ['Graveyard'],
+  'Graveyard Warp Pad Region': ['Graveyard', 'Shadow Temple'],
   'Graveyard': ['Kakariko Village'],
   'Death Mountain Trail': ['Death Mountain Crater', 'Goron City', 'Kakariko Village', 'Dodongos Cavern'],
   'Death Mountain Crater': ['Death Mountain Trail'],
