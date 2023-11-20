@@ -263,7 +263,7 @@ var staticAllLocations = [
   { name: "LLR GS Back Wall", region: "Lon Lon Ranch", type: "Skulltula", shuffleGroup: "tokens_overworld", age: "child" },
   { name: "LLR Tower Left Cow", region: "Lon Lon Ranch", subregion: "LLR Tower", subregionShuffleGroup: "entrances_interiors_simple", type: "NPC", shuffleGroup: "cows" },
   { name: "LLR Tower Right Cow", region: "Lon Lon Ranch", subregion: "LLR Tower", subregionShuffleGroup: "entrances_interiors_simple", type: "NPC", shuffleGroup: "cows" },
-  { name: "LLR Freestanding PoH", region: "Lon Lon Ranch", subregion: "LLR Tower", subregionShuffleGroup: "entrances_interiors_simple", type: "Freestanding", age: "child" },
+  { name: "LLR Freestanding PoH", region: "Lon Lon Ranch", subregion: "LLR Tower", subregionShuffleGroup: "entrances_interiors_simple", type: "Freestanding" },
     // # Lon Lon Ranch Pots/Crates
     // ("LLR Front Pot 1",                                              ("Pot",          0x63,  [(0,0,6),
     //                                                                                           (0,1,5)], None,                       'Recovery Heart',                        ("Lon Lon Ranch", "Pots",))),
@@ -382,7 +382,7 @@ var staticAllLocations = [
   { name: "DMT Storms Grotto Chest", region: "Death Mountain Trail", subregion: "DMT Storms Grotto", subregionShuffleGroup: "entrances_grottos", type: "Chest" },
   { name: "DMT Cow Grotto Cow", region: "Death Mountain Trail", subregion: "DMT Cow Grotto", subregionShuffleGroup: "entrances_grottos", type: "NPC", shuffleGroup: "cows" },
   { name: "DMT GS Falling Rocks Path", region: "Death Mountain Trail", type: "Skulltula", age: "adult", shuffleGroup: "tokens_overworld" },
-  { name: "DMT Great Fairy Reward", region: "Death Mountain Trail", region: "Death Mountain Trail", subregion: "DMT Great Fairy Fountain", subregionShuffleGroup: "entrances_interior_simple", type: "Cutscene" },
+  { name: "DMT Great Fairy Reward", region: "Death Mountain Trail", region: "Death Mountain Trail", subregion: "DMT Great Fairy Fountain", subregionShuffleGroup: "entrances_interiors_simple", type: "Cutscene" },
   { name: "DMT Biggoron", region: "Death Mountain Trail", type: "NPC", age: "adult" },
   { name: "DMT Trade Broken Sword", region: "Death Mountain Trail", type: "NPC", shuffleGroup: "trade_adult" },
   { name: "DMT Trade Eyedrops", region: "Death Mountain Trail", type: "NPC", shuffleGroup: "trade_adult" },
@@ -419,10 +419,10 @@ var staticAllLocations = [
   { name: "GC Deku Scrub Grotto Left", region: "Goron City", subregion: "GC Grotto", subregionShuffleGroup: "entrances_grottos", type: "Scrub", shuffleGroup: "scrubs" },
   { name: "GC Deku Scrub Grotto Center", region: "Goron City", subregion: "DMT Great Fairy Fountain", subregionShuffleGroup: "entrances_grottos", type: "Scrub", shuffleGroup: "scrubs" },
   { name: "GC Deku Scrub Grotto Right", region: "Goron City", subregion: "GC Grotto", subregionShuffleGroup: "entrances_grottos", type: "Scrub", shuffleGroup: "scrubs" },
-  { name: "GC Shop Item 5", region: "Goron City", subregion: "GC Shop", subregionShuffleGroup: "entrances_interior_simple", type: "Shop", shuffleGroup: "shops" },
-  { name: "GC Shop Item 6", region: "Goron City", subregion: "GC Shop", subregionShuffleGroup: "entrances_interior_simple", type: "Shop", shuffleGroup: "shops" },
-  { name: "GC Shop Item 7", region: "Goron City", subregion: "GC Shop", subregionShuffleGroup: "entrances_interior_simple", type: "Shop", shuffleGroup: "shops" },
-  { name: "GC Shop Item 8", region: "Goron City", subregion: "GC Shop", subregionShuffleGroup: "entrances_interior_simple", type: "Shop", shuffleGroup: "shops" },
+  { name: "GC Shop Item 5", region: "Goron City", subregion: "GC Shop", subregionShuffleGroup: "entrances_interiors_simple", type: "Shop", shuffleGroup: "shops" },
+  { name: "GC Shop Item 6", region: "Goron City", subregion: "GC Shop", subregionShuffleGroup: "entrances_interiors_simple", type: "Shop", shuffleGroup: "shops" },
+  { name: "GC Shop Item 7", region: "Goron City", subregion: "GC Shop", subregionShuffleGroup: "entrances_interiors_simple", type: "Shop", shuffleGroup: "shops" },
+  { name: "GC Shop Item 8", region: "Goron City", subregion: "GC Shop", subregionShuffleGroup: "entrances_interiors_simple", type: "Shop", shuffleGroup: "shops" },
     // ("GC Spinning Pot Bomb Drop 1",                                  ("RupeeTower",   0x62,  (3,0,0x41), ([0x22A82F4], None),       'Bombs (5)',                             ("Goron City", "Rupee Towers",))),
     // ("GC Spinning Pot Bomb Drop 2",                                  ("RupeeTower",   0x62,  (3,0,0x42), None,                      'Bombs (5)',                             ("Goron City", "Rupee Towers",))),
     // ("GC Spinning Pot Bomb Drop 3",                                  ("RupeeTower",   0x62,  (3,0,0x43), None,                      'Bombs (5)',                             ("Goron City", "Rupee Towers",))),
@@ -447,7 +447,7 @@ var staticAllLocations = [
 
     // # Death Mountain Crater
   { name: "DMC Volcano Freestanding PoH", region: "Death Mountain Crater", age: "adult", type: "Freestanding" },
-  { name: "DMC Great Fairy Reward", region: "Death Mountain Crater", subregion: "DMC Great Fairy Fountain", subregionShuffleGroup: "entrances_interior_simple", type: "Cutscene" },
+  { name: "DMC Great Fairy Reward", region: "Death Mountain Crater", subregion: "DMC Great Fairy Fountain", subregionShuffleGroup: "entrances_interiors_simple", type: "Cutscene" },
   { name: "DMC Wall Freestanding PoH", region: "Death Mountain Crater", type: "Freestanding" },
   { name: "DMC Upper Grotto Chest", region: "Death Mountain Crater", subregion: "DMC Upper Grotto", subregionShuffleGroup: "entrances_grottos", type: "Chest" },
   { name: "DMC Deku Scrub Grotto Left", region: "Death Mountain Crater", subregion: "DMC Hammer Grotto", subregionShuffleGroup: "entrances_grottos", type: "Scrub", shuffleGroup: "scrubs" },
@@ -516,10 +516,10 @@ var staticAllLocations = [
   { name: "ZD King Zora Thawed", region: "Zoras Domain", type: "NPC", age: "adult" },
   { name: "ZD Trade Prescription", region: "Zoras Domain", type: "NPC", age: "adult", shuffleGroup: "trade_adult" },
   { name: "ZD GS Frozen Waterfall", region: "Zoras Domain", type: "Skulltula", age: "adult", shuffleGroup: "tokens_overworld" },
-  { name: "ZD Shop Item 5", region: "Zoras Domain", subregion: "ZR Shop", subregionShuffleGroup: "entrances_interior_simple", type: "Shop", shuffleGroup: "shops" },
-  { name: "ZD Shop Item 6", region: "Zoras Domain", subregion: "ZR Shop", subregionShuffleGroup: "entrances_interior_simple", type: "Shop", shuffleGroup: "shops" },
-  { name: "ZD Shop Item 7", region: "Zoras Domain", subregion: "ZR Shop", subregionShuffleGroup: "entrances_interior_simple", type: "Shop", shuffleGroup: "shops" },
-  { name: "ZD Shop Item 8", region: "Zoras Domain", subregion: "ZR Shop", subregionShuffleGroup: "entrances_interior_simple", type: "Shop", shuffleGroup: "shops" },
+  { name: "ZD Shop Item 5", region: "Zoras Domain", subregion: "ZR Shop", subregionShuffleGroup: "entrances_interiors_simple", type: "Shop", shuffleGroup: "shops" },
+  { name: "ZD Shop Item 6", region: "Zoras Domain", subregion: "ZR Shop", subregionShuffleGroup: "entrances_interiors_simple", type: "Shop", shuffleGroup: "shops" },
+  { name: "ZD Shop Item 7", region: "Zoras Domain", subregion: "ZR Shop", subregionShuffleGroup: "entrances_interiors_simple", type: "Shop", shuffleGroup: "shops" },
+  { name: "ZD Shop Item 8", region: "Zoras Domain", subregion: "ZR Shop", subregionShuffleGroup: "entrances_interiors_simple", type: "Shop", shuffleGroup: "shops" },
     // # Zora's Domain Pots
     // ("ZD Pot 1",                                                     ("Pot",          0x58,  [(1,2,6),(1,0,22)], None,              'Deku Stick (1)',                        ("Zora's Domain", "Pots",))),
     // ("ZD Pot 2",                                                     ("Pot",          0x58,  [(1,2,5),(1,0,23)], None,              'Deku Nuts (5)',                         ("Zora's Domain", "Pots",))),
@@ -532,7 +532,7 @@ var staticAllLocations = [
     // ("ZD Behind King Zora Beehive",                                  ("Beehive",      0x58,  (0,0,12), None,                        'Rupees (20)',                           ("Zora's Domain", "Beehives",))),
 
     // # Zora's Fountain
-  { name: "ZF Great Fairy Reward", region: "Zoras Fountain", subregion: "ZR Great Fairy Fountain", subregionShuffleGroup: "entrances_interior_simple", type: "Cutscene" },
+  { name: "ZF Great Fairy Reward", region: "Zoras Fountain", subregion: "ZR Great Fairy Fountain", subregionShuffleGroup: "entrances_interiors_simple", type: "Cutscene" },
   { name: "ZF Iceberg Freestanding PoH", region: "Zoras Fountain", type: "Freestanding", age: "adult" },
   { name: "ZF Bottom Freestanding PoH", region: "Zoras Fountain", type: "Freestanding", age: "adult" },
   { name: "ZF GS Above the Log", region: "Zoras Fountain", type: "Skulltula", age: "child", shuffleGroup: "tokens_overworld"  },
@@ -568,11 +568,11 @@ var staticAllLocations = [
 
     // # Lake Hylia
   { name: "LH Underwater Item", region: "Lake Hylia", type: "Freestanding", age: "child" },
-  { name: "LH Child Fishing", region: "Lake Hylia", subregion: "LH Fishing Hole", subregionShuffleGroup: "entrances_interior_simple", type: "NPC", age: "child" },
-  { name: "LH Adult Fishing", region: "Lake Hylia", subregion: "LH Fishing Hole", subregionShuffleGroup: "entrances_interior_simple", type: "NPC", age: "adult" },
-  { name: "LH Loach Fishing", region: "Lake Hylia", subregion: "LH Fishing Hole", subregionShuffleGroup: "entrances_interior_simple", type: "NPC", age: "adult", shuffleGroup: "loach" },
-  { name: "LH Lab Dive", region: "Lake Hylia", subregion: "LH Lab", subregionShuffleGroup: "entrances_interior_simple", type: "NPC" },
-  { name: "LH GS Lab Crate", region: "Lake Hylia", subregion: "LH Lab", subregionShuffleGroup: "entrances_interior_simple", type: "Skulltula", age: "adult", shuffleGroup: "tokens_overworld" },
+  { name: "LH Child Fishing", region: "Lake Hylia", subregion: "LH Fishing Hole", subregionShuffleGroup: "entrances_interiors_simple", type: "NPC", age: "child" },
+  { name: "LH Adult Fishing", region: "Lake Hylia", subregion: "LH Fishing Hole", subregionShuffleGroup: "entrances_interiors_simple", type: "NPC", age: "adult" },
+  { name: "LH Loach Fishing", region: "Lake Hylia", subregion: "LH Fishing Hole", subregionShuffleGroup: "entrances_interiors_simple", type: "NPC", age: "adult", shuffleGroup: "loach" },
+  { name: "LH Lab Dive", region: "Lake Hylia", subregion: "LH Lab", subregionShuffleGroup: "entrances_interiors_simple", type: "NPC" },
+  { name: "LH GS Lab Crate", region: "Lake Hylia", subregion: "LH Lab", subregionShuffleGroup: "entrances_interiors_simple", type: "Skulltula", age: "adult", shuffleGroup: "tokens_overworld" },
   { name: "LH GS Bean Patch", region: "Lake Hylia", type: "Skulltula", age: "child", shuffleGroup: "tokens_overworld" },
   { name: "LH GS Lab Wall", region: "Lake Hylia", type: "Skulltula", age: "child", shuffleGroup: "tokens_overworld" },
   { name: "LH Trade Eyeball Frog", region: "Lake Hylia", type: "NPC", age: "adult", shuffleGroup: "trade_adult"  },
@@ -694,7 +694,7 @@ var staticAllLocations = [
 
     // # Outside Ganons Castle
   { name: "OGC GS", region: "Outside Ganons Castle", type: "Skulltula", age: "adult", shuffleGroup: "tokens_overworld" },
-  { name: "OGC Great Fairy Reward", region: "Outside Ganons Castle", subregion: "OGC Great Fairy Fountain", subregionShuffleGroup: "entrances_interior_simple", type: "Cutscene" },
+  { name: "OGC Great Fairy Reward", region: "Outside Ganons Castle", subregion: "OGC Great Fairy Fountain", subregionShuffleGroup: "entrances_interiors_simple", type: "Cutscene" },
 
     // ## Dungeons
     // # Deku Tree Vanilla
