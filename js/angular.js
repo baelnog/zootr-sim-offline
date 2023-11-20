@@ -407,9 +407,9 @@ $scope.peekAt = function(loc_name) {
   if (loc.type == 'Warp') {
     destination = $scope.entrances[loc.checkName]
     if (destination.region) {
-      hintItem = getRegion(destination.region)
+      hintItem = $scope.getRegion(destination.region)
     } else {
-      hintItem = getRegion(destination)
+      hintItem = $scope.getRegion(destination)
     }
     // Don't spoil the Nocturne warp
     if (hintItem.startsWith('Graveyard')) {
@@ -741,6 +741,22 @@ $scope.hasBossKey = function(dungeon) {
     'Ganons Castle':0
   };
 };
+
+$scope.getRegion = function(region_name) {
+  if (regionsBySubregion[region_name]) {
+    return regionsBySubregion[region_name]
+  }
+  if (locationsByName[region_name]) {
+    loc = locationsByName[region_name]
+    if (loc.shuffleGroup && $scope.enabled_shuffles[loc.shuffleGroup]) {
+      return region_name
+    }
+  }
+  if (getSpawn(region_name)) {
+    return getSpawn(region_name)
+  }
+  return region_name
+}
   
   $scope.takeEntrance = function(entrance) {
     $scope.actions.push('Entrance:' + $scope.currentRegion + ':' + entrance);
@@ -819,7 +835,7 @@ $scope.hasBossKey = function(dungeon) {
           }
         }
 
-        $scope.currentRegion = getRegion(destination)
+        $scope.currentRegion = $scope.getRegion(destination)
 
       } else {
         $scope.currentRegion = entrance;
@@ -1412,7 +1428,7 @@ $scope.hasBossKey = function(dungeon) {
           if (typeof(destinationData) == 'object') {
             leaveDestination = destinationData.region + " -> " + destinationData.from
             if (!(leaveDestination in entrancesByCheckName)) {
-              var destinationFromRegion = getRegion(destinationData.from)
+              var destinationFromRegion = $scope.getRegion(destinationData.from)
               var candidates = entranceLocs
                 .filter(loc => loc.region == destinationData.region && loc.to == destinationFromRegion)
               if (candidates[0] == null) {
