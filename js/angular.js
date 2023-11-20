@@ -749,9 +749,13 @@ $scope.getRegion = function(region_name) {
   if (locationsByName[region_name]) {
     loc = locationsByName[region_name]
     if (loc.shuffleGroup && $scope.enabled_shuffles[loc.shuffleGroup]) {
+      if (region_name.startsWith('Kak Pot')) {
+        return 'Kak Potion Shop'
+      }
       return region_name
     }
   }
+
   if (getSpawn(region_name)) {
     return getSpawn(region_name)
   }
@@ -771,13 +775,13 @@ $scope.getRegion = function(region_name) {
       $scope.currentAge = 'Child';
     }
     else if (entrance == 'Savewarp Child') {
-      $scope.currentRegion = getSpawn($scope['currentSpoilerLog']['entrances']['Child Spawn -> KF Links House']['region'] === undefined ? $scope['currentSpoilerLog']['entrances']['Child Spawn -> KF Links House'] : $scope['currentSpoilerLog']['entrances']['Child Spawn -> KF Links House']['region']);
+      $scope.currentRegion = $scope.getRegion($scope['currentSpoilerLog']['entrances']['Child Spawn -> KF Links House']['region'] === undefined ? $scope['currentSpoilerLog']['entrances']['Child Spawn -> KF Links House'] : $scope['currentSpoilerLog']['entrances']['Child Spawn -> KF Links House']['region']);
       $scope.child_spawn_text = $scope['currentSpoilerLog']['entrances']['Child Spawn -> KF Links House']['region'] === undefined ? $scope['currentSpoilerLog']['entrances']['Child Spawn -> KF Links House'] : $scope['currentSpoilerLog']['entrances']['Child Spawn -> KF Links House']['region'];
       checked_child_spawn = true;
       $scope.route += 'Savewarp\n';
     }
     else if (entrance == 'Savewarp Adult') {
-      $scope.currentRegion = getSpawn($scope['currentSpoilerLog']['entrances']['Adult Spawn -> Temple of Time']['region'] === undefined ? $scope['currentSpoilerLog']['entrances']['Adult Spawn -> Temple of Time'] : $scope['currentSpoilerLog']['entrances']['Adult Spawn -> Temple of Time']['region']);
+      $scope.currentRegion = $scope.getRegion($scope['currentSpoilerLog']['entrances']['Adult Spawn -> Temple of Time']['region'] === undefined ? $scope['currentSpoilerLog']['entrances']['Adult Spawn -> Temple of Time'] : $scope['currentSpoilerLog']['entrances']['Adult Spawn -> Temple of Time']['region']);
       $scope.adult_spawn_text = $scope['currentSpoilerLog']['entrances']['Adult Spawn -> Temple of Time']['region'] === undefined ? $scope['currentSpoilerLog']['entrances']['Adult Spawn -> Temple of Time'] : $scope['currentSpoilerLog']['entrances']['Adult Spawn -> Temple of Time']['region'];
       checked_adult_spawn = true;
       $scope.route += 'Savewarp\n';
@@ -1315,7 +1319,7 @@ $scope.getRegion = function(region_name) {
       var childRegion = logfile['entrances']['Child Spawn -> KF Links House']['region'] === undefined ? logfile['entrances']['Child Spawn -> KF Links House'] : logfile['entrances']['Child Spawn -> KF Links House']['region'];
       var childRegionText = logfile['entrances']['Child Spawn -> KF Links House']['region'] === undefined ? logfile['entrances']['Child Spawn -> KF Links House'] : logfile['entrances']['Child Spawn -> KF Links House']['region'];
 
-      childRegion = getSpawn(childRegion)
+      childRegion = $scope.getRegion(childRegion)
 
       $scope.child_spawn = childRegion;
       child_spawn = childRegion;
@@ -1324,7 +1328,7 @@ $scope.getRegion = function(region_name) {
 
       var adultRegion = logfile['entrances']['Adult Spawn -> Temple of Time']['region'] === undefined ? logfile['entrances']['Adult Spawn -> Temple of Time'] : logfile['entrances']['Adult Spawn -> Temple of Time']['region'];
       var adultRegionText = logfile['entrances']['Adult Spawn -> Temple of Time']['region'] === undefined ? logfile['entrances']['Adult Spawn -> Temple of Time'] : logfile['entrances']['Adult Spawn -> Temple of Time']['region'];
-      adultRegion = getSpawn(adultRegion)
+      adultRegion = $scope.getRegion(adultRegion)
 
       $scope.adult_spawn = adultRegion;
       adult_spawn = adultRegion;
@@ -1613,10 +1617,10 @@ $scope.getRegion = function(region_name) {
       }
     }
 
-    localforage.setItem('child_spawn', getSpawn(localChildSpawn));
+    localforage.setItem('child_spawn', $scope.getRegion(localChildSpawn));
     localforage.setItem('child_spawn_text', localChildSpawn);
     localforage.setItem('checked_child_spawn', checked_child_spawn);
-    localforage.setItem('adult_spawn', getSpawn(localAdultSpawn));
+    localforage.setItem('adult_spawn', $scope.getRegion(localAdultSpawn));
     localforage.setItem('adult_spawn_text', localAdultSpawn);
     localforage.setItem('checked_adult_spawn', checked_adult_spawn);
     localforage.setItem('playing', $scope.playing);

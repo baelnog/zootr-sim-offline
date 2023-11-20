@@ -294,6 +294,7 @@ var staticAllLocations = [
   { name: "Kak Granny Trade Odd Mushroom", region: "Kakariko Village", subregion: "Kak Odd Medicine Building", subregionShuffleGroup: "entrances_interiors_simple", type: "NPC", age: "adult", shuffleGroup: "trade_adult" },
   { name: "Kak Granny Buy Blue Potion", region: "Kakariko Village", subregion: "Kak Odd Medicine Building", subregionShuffleGroup: "entrances_interiors_simple", type: "NPC", shuffleGroup: "expensive_merchants" },
   { name: "Kak Windmill Freestanding PoH", region: "Kakariko Village", subregion: "Kak Windmill", subregionShuffleGroup: "entrances_interiors_special", type: "Freestanding" },
+  { name: "Kak Impas House Freestanding PoH", region: "Kakariko Village", subregion: "Kak Impas House", subregionShuffleGroup: "entrances_interiors_simple", type: "Freestanding" },
   { name: "Kak Impas House Freestanding PoH", region: "Kakariko Village", subregion: "Kak Impas House Back", subregionShuffleGroup: "entrances_interiors_simple", type: "Freestanding" },
   { name: "Kak Impas House Cow", region: "Kakariko Village", subregion: "Kak Impas House Back", subregionShuffleGroup: "entrances_interiors_simple", type: "NPC", shuffleGroup: "cows" },
   { name: "Kak Impas House Cow", region: "Kakariko Village", subregion: "Kak Impas House", subregionShuffleGroup: "entrances_interiors_simple", type: "NPC", shuffleGroup: "cows" },
@@ -532,7 +533,7 @@ var staticAllLocations = [
     // ("ZD Behind King Zora Beehive",                                  ("Beehive",      0x58,  (0,0,12), None,                        'Rupees (20)',                           ("Zora's Domain", "Beehives",))),
 
     // # Zora's Fountain
-  { name: "ZF Great Fairy Reward", region: "Zoras Fountain", subregion: "ZR Great Fairy Fountain", subregionShuffleGroup: "entrances_interiors_simple", type: "Cutscene" },
+  { name: "ZF Great Fairy Reward", region: "Zoras Fountain", subregion: "ZF Great Fairy Fountain", subregionShuffleGroup: "entrances_interiors_simple", type: "Cutscene" },
   { name: "ZF Iceberg Freestanding PoH", region: "Zoras Fountain", type: "Freestanding", age: "adult" },
   { name: "ZF Bottom Freestanding PoH", region: "Zoras Fountain", type: "Freestanding", age: "adult" },
   { name: "ZF GS Above the Log", region: "Zoras Fountain", type: "Skulltula", age: "child", shuffleGroup: "tokens_overworld"  },
@@ -2258,9 +2259,9 @@ var staticAllLocations = [
   { name: "Kak Windmill", checkName: "Kakariko Village -> Kak Windmill", region: "Kakariko Village", type: "Entrance", shuffleGroup: "entrances_interiors_special" },
   { name: "Leave Kak Windmill", checkName: "Kak Windmill -> Kakariko Village", region: "Kak Windmill", type: "Entrance" },
   { name: "Kak Potion Shop Front", checkName: "Kakariko Village -> Kak Potion Shop Front", region: "Kakariko Village", type: "Entrance", shuffleGroup: "entrances_interiors_special" },
-  { name: "Leave Kak Potion Shop Front", checkName: "Kak Potion Shop Front -> Kakariko Village", region: "Kak Potion Shop Front", type: "Entrance", shuffleGroup: "entrances_interiors_special" },
+  { name: "Leave Kak Potion Shop Front", checkName: "Kak Potion Shop Front -> Kakariko Village", region: "Kak Potion Shop", type: "Entrance", shuffleGroup: "entrances_interiors_special" },
   { name: "Kak Potion Shop Back", checkName: "Kak Backyard -> Kak Potion Shop Back", region: "Kakariko Village", type: "Entrance", shuffleGroup: "entrances_interiors_special" },
-  { name: "Leave Kak Potion Shop Back", checkName: "Kak Potion Shop Back -> Kak Backyard", region: "Kak Potion Shop Back", age: "child", type: "Entrance", shuffleGroup: "entrances_interiors_special" },
+  { name: "Leave Kak Potion Shop Back", checkName: "Kak Potion Shop Back -> Kak Backyard", region: "Kak Potion Shop", age: "adult", type: "Entrance", shuffleGroup: "entrances_interiors_special" },
 
   { name: "Colossus Grotto", checkName: "Desert Colossus -> Colossus Grotto", region: "Desert Colossus", age: "adult", type: "Entrance", shuffleGroup: "entrances_grottos" },
   { name: "Leave Colossus Grotto", checkName: "Colossus Grotto -> Desert Colossus", region: "Colossus Grotto", type: "Entrance", shuffleGroup: "entrances_grottos" },
