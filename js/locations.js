@@ -934,7 +934,7 @@ var staticAllLocations = [
 //     ("Jabu Jabus Belly MQ Boomerang Room Pot 1",                     ("Pot",          0x02,  (14,0,11), None,                       'Bombs (5)',                             ("Jabu Jabus Belly MQ", "Master Quest", "Pots",))),
 //     ("Jabu Jabus Belly MQ Boomerang Room Pot 2",                     ("Pot",          0x02,  (14,0,15), None,                       'Bombs (5)',                             ("Jabu Jabus Belly MQ", "Master Quest", "Pots",))),
 //     # Jabu Jabus Belly Shared
-//   { name: "Jabu Jabus Belly Barinade Heart", region: "Jabu Jabus Belly", type: "BossHeart" },
+  { name: "Jabu Jabus Belly Barinade Heart", region: "Jabu Jabus Belly", type: "BossHeart" },
 //     ("Jabu Jabus Belly Barinade Pot 1",                              ("Pot",          0x13,  (1,0,2), None,                         'Recovery Heart',                        ("Jabu Jabus Belly", "Jabu Jabus Belly MQ", "Vanilla Dungeons", "Master Quest", "Pots",))),
 //     ("Jabu Jabus Belly Barinade Pot 2",                              ("Pot",          0x13,  (1,0,3), None,                         'Recovery Heart',                        ("Jabu Jabus Belly", "Jabu Jabus Belly MQ", "Vanilla Dungeons", "Master Quest", "Pots",))),
 //     ("Jabu Jabus Belly Barinade Pot 3",                              ("Pot",          0x13,  (1,0,4), None,                         'Recovery Heart',                        ("Jabu Jabus Belly", "Jabu Jabus Belly MQ", "Vanilla Dungeons", "Master Quest", "Pots",))),
