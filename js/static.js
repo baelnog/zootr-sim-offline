@@ -925,7 +925,8 @@ var dungeonSmallKeyCount = {
 }
 
 var bosses = {
-  'Links Pocket': 'Free',
+  'Links Pocket': 'Temple of Time',
+  'ToT Reward from Rauru': 'Temple of Time',
   'Queen Gohma': 'Deku Tree',
   'King Dodongo': 'Dodongos Cavern',
   'Barinade': 'Jabu Jabus Belly',

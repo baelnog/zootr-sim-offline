@@ -79,7 +79,7 @@ app.controller('simController', function($scope, $http) {
       'Water Temple': '???',
       'Shadow Temple': '???',
       'Spirit Temple': '???',
-      'Free': '???',
+      'Temple of Time': '???',
     };
     
     $scope.numChecksMade = 0;
@@ -857,7 +857,7 @@ $scope.getRegion = function(region_name) {
     'Water Temple', 
     'Shadow Temple', 
     'Spirit Temple', 
-    'Free',
+    'Temple of Time',
     'Bottom of the Well', 
     'Gerudo Fortress', 
     'Gerudo Training Ground', 
@@ -895,7 +895,7 @@ $scope.getRegion = function(region_name) {
     'Water Temple': 'water.png',
     'Shadow Temple': 'shadow.png',
     'Spirit Temple': 'spirit.png',
-    'Free': 'free.png',
+    'Temple of Time': 'free.png',
     'Spirit Temple': 'spirit.png',
     'Bottom of the Well': 'botw.png',
     'Ice Cavern': 'ice.png',
@@ -1488,7 +1488,6 @@ $scope.getRegion = function(region_name) {
         $scope.gossipHints[loc.name] = hint['text'].replace(/#/g,'')
       }
 
-      $scope.checkedLocations.push('Links Pocket');
       for (var loc in logfile[':skipped_locations']) {
         $scope.currentItemsAll.push(logfile[':skipped_locations'][loc]);
         $scope.numChecksMade++;
@@ -1498,8 +1497,19 @@ $scope.getRegion = function(region_name) {
           $scope.knownMedallions[bosses[loc]] = logfile['locations'][loc];
         }
       }
-      $scope.knownMedallions['Free'] = $scope.allLocations['Links Pocket'];
-      $scope.medallions['Free'] = $scope.allLocations['Links Pocket'];
+
+      if ($scope.allLocations['Links Pocket']) {
+        $scope.knownMedallions['Temple of Time'] = $scope.allLocations['Links Pocket'];
+        $scope.medallions['Temple of Time'] = $scope.allLocations['Links Pocket'];
+        $scope.checkedLocations.push('Links Pocket');
+      } else {
+        $scope.medallions['Temple of Time'] = $scope.allLocations['ToT Reward from Rauru'];
+        $scope.checkedLocations.push('ToT Reward from Rauru');
+        if (logfile['settings']['skip_reward_from_rauru']) {
+          $scope.knownMedallions['Temple of Time'] = $scope.allLocations['ToT Reward from Rauru'];
+        }
+      }
+
       $scope.medallions['Deku Tree'] = $scope.allLocations['Queen Gohma'];
       $scope.medallions['Dodongos Cavern'] = $scope.allLocations['King Dodongo'];
       $scope.medallions['Jabu Jabus Belly'] = $scope.allLocations['Barinade'];

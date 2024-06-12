@@ -2145,6 +2145,7 @@ var staticAllLocations = [
   { name: "Light Arrows Hint", region: "Ganons Castle", type: "Hint", shuffleGroup: "misc_hints_ganondorf" },
 
   { name: "Links Pocket", region: "Links Pocket", type: "Boss" },
+  { name: "ToT Reward from Rauru", region: "Temple of Time", type: "Boss", age: "adult" },
   { name: "Queen Gohma", region: "Deku Tree", type: "Boss" },
   { name: "King Dodongo", region: "Dodongos Cavern", type: "Boss" },
   { name: "Barinade", region: "Jabu Jabus Belly", type: "Boss", age: "child" },
