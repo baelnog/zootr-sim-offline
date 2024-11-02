@@ -714,10 +714,10 @@ a.useChu {
 .disable {
     /*background-blend-mode:overlay;*/
     background-color: transparent !important;
-    -webkit-filter:brightness(30%);
-      -moz-filter:brightness(30%);
+    -webkit-filter:brightness(40%);
+      -moz-filter:brightness(40%);
       filter: url(#brightness); /* required for FF */
-      filter:brightness(30%);
+      filter:brightness(40%);
 }
 
 .shopgrid {
