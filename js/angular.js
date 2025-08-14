@@ -872,10 +872,10 @@ $scope.getRegion = function(region_name) {
         'Goron Ruby': 'stones.png',
         'Zora Sapphire': 'stones.png',
         'Forest Medallion': 'forest-small.png',
-        'Fire Medallion': 'firewater.png',
-        'Water Medallion': 'firewater.png',
-        'Shadow Medallion': 'shadowspirit.png',
-        'Spirit Medallion': 'shadowspirit.png',
+        'Fire Medallion': 'fire-small.png',
+        'Water Medallion': 'water-small.png',
+        'Shadow Medallion': 'shadow-small.png',
+        'Spirit Medallion': 'spirit-small.png',
         'Light Medallion': 'light-small.png',
         '???': 'unknown-small.png' 
       };
