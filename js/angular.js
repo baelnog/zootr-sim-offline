@@ -360,8 +360,18 @@ app.controller('simController', function($scope, $http) {
           $scope.itemCounts[bossKeyItem] = 1;
         }
       }
+
+      if ((item.includes('Bottle') || item == 'Rutos Letter') && item != 'Bottle') {
+        if ($scope.itemCounts['Bottle'] > 0) {
+          $scope.itemCounts['Bottle']++;
+        }
+        else {
+          $scope.itemCounts['Bottle'] = 1;
+        }
+      }
       $scope.itemCounts[item]++;
       
+
       if (loc in bosses) {
         $scope.knownMedallions[bosses[loc]] = item;
       }
@@ -571,6 +581,9 @@ $scope.undoCheck = function() {
       $scope.numChecksMade--;
       
       $scope.itemCounts[item]--;
+      if ((item.includes('Bottle') || item == 'Rutos Letter') && item != 'Bottle') {
+        $scope.itemCounts['Bottle']--;
+      }
       if(warpSongs.includes(item)) {
         $scope.collectedWarps.pop();
       }
@@ -912,13 +925,11 @@ $scope.getRegion = function(region_name) {
     if (item == 'Bottle') {
       var bottles = 0;
       var hasLetter = false;
-      for (var i = 0; i < $scope.currentItemsAll.length; i++) {
-        if ($scope.currentItemsAll[i].startsWith('Bottle') || $scope.currentItemsAll[i].startsWith('Rutos')) {
-          bottles++;
-          if ($scope.currentItemsAll[i] == 'Rutos Letter') {
-            hasLetter = true;
-          }
-        }
+      if ($scope.itemCounts['Bottle']) {
+        bottles = $scope.itemCounts['Bottle'];
+      }
+      if ($scope.itemCounts['Rutos Letter']) {
+        hasLetter = true
       }
       return [(hasLetter ? 'ruto' : '') + 'bottle' + bottles + '.png', bottles > 0]
     }
@@ -1478,6 +1489,34 @@ $scope.getRegion = function(region_name) {
         }
       }
 
+      for (var item in logfile[':randomized_starting_items']) {
+        $scope.currentItemsAll.push(item);
+        var quantity = logfile[':randomized_starting_items'][item];
+        if (item.startsWith('Small Key Ring')) {
+          var dungeon = item.split('(')[1].replace(')', '')
+          var smallKeyItem = 'Small Key (' + dungeon + ')'
+          $scope.itemCounts[smallKeyItem] = dungeonSmallKeyCount[dungeon];
+          if ($scope.enabled_shuffles['keyring_give_bk'] && $scope.hasBossKey(dungeon)) {
+            var bossKeyItem = 'Boss Key (' + dungeon + ')'
+            $scope.itemCounts[bossKeyItem] = 1;
+          }
+        }
+        if (item.includes('Bottle') || item == 'Rutos Letter') {
+          if ($scope.itemCounts['Bottle'] > 0) {
+            $scope.itemCounts['Bottle'] += quantity;
+          }
+          else {
+            $scope.itemCounts['Bottle'] = quantity;
+          }
+        }
+        if (item != 'Bottle') {
+          $scope.itemCounts[item] = quantity;
+        }
+        if (warpSongs.includes(item)) {
+          $scope.collectedWarps.push(item);
+        }
+      }
+
       var hintStones = staticAllLocations.filter(loc => loc.type == 'HintStone')
       for (var i in hintStones) {
         var loc = hintStones[i]
@@ -1608,7 +1647,7 @@ $scope.getRegion = function(region_name) {
     $scope.updateForage();
   };
   
-  var forageItems = ['entrances', 'windRegionChild', 'windRegionAdult', 'peekedLocations', 'currentSeed', 'shopContents', 'currentSpoilerLog', 'checkedHints', 'knownHints', 'allLocations', 'shopPrices', 'fsHash', 'checkedLocations', 'currentItemsAll', 'medallions', 'currentRegion', 'currentAge', 'knownMedallions', 'numChecksMade', 'totalChecks', 'gossipHints', 'itemCounts', 'usedChus', 'collectedWarps', 'finished', 'route', 'currentChild', 'currentAdult', 'playing', 'disableUndo', 'darkModeOn', 'actions', 'child_spawn', 'child_spawn_text', 'checked_child_spawn', 'adult_spawn', 'adult_spawn_text', 'checked_adult_spawn', 'enabled_misc_hints', 'enabled_shuffles', 'is_csmc', 'disabled_locations']
+  var forageItems = ['entrances', 'itemgrid', 'windRegionChild', 'windRegionAdult', 'peekedLocations', 'currentSeed', 'shopContents', 'currentSpoilerLog', 'checkedHints', 'knownHints', 'allLocations', 'shopPrices', 'fsHash', 'checkedLocations', 'currentItemsAll', 'medallions', 'currentRegion', 'currentAge', 'knownMedallions', 'numChecksMade', 'totalChecks', 'gossipHints', 'itemCounts', 'usedChus', 'collectedWarps', 'finished', 'route', 'currentChild', 'currentAdult', 'playing', 'disableUndo', 'darkModeOn', 'actions', 'child_spawn', 'child_spawn_text', 'checked_child_spawn', 'adult_spawn', 'adult_spawn_text', 'checked_adult_spawn', 'enabled_misc_hints', 'enabled_shuffles', 'is_csmc', 'disabled_locations']
   
   $scope.updateForage = function() {
     forageItems.forEach(function(item) {

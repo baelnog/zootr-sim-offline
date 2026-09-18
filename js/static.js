@@ -11,6 +11,7 @@ var importantItems = [
   'Nayrus Love',
   'Fire Arrows',
   'Ice Arrows',
+  'Blue Fire Arrows',
   'Light Arrows',
   'Fairy Ocarina',
   'Ocarina of Time',
